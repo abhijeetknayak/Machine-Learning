@@ -33,15 +33,15 @@ Lecture 6: Training Networks
   
   
   5. Training Process :
-      *Always start your training process with a small subset of the data from your training set.
-      *Start with Zero Regularization and ensure that the value for the loss(or cost) is plausible.
-      *Update the learning rate to a small value(say 1e-6) and check how this affects the network loss.
-      *Similarly try out a small value for the regularization and check how this affects the loss. You should expect a slight increase in loss.
-      *Optimization in the log space is easier. Use the random.uniform function in the numpy library(10**uniform(l, h)).
-      *A random search for these hyper-parameters works out better than the grid search.
-      *Look at all the training and Validation accuracies achieved by the network and try to optimize in areas of high accuracy.      
-      *Monitor plots of training, validation accuracies as well as loss curves:          
-         *A big difference between Train and Val accuracy(Overfitting) - Increase Regularization; Small difference - Model saturated. Increase model capacity.
-         *Monitor loss curves for information about the learning rate effectiveness.
+      1. Always start your training process with a small subset of the data from your training set.
+      2. Start with Zero Regularization and ensure that the value for the loss(or cost) is plausible.
+      3. Update the learning rate to a small value(say 1e-6) and check how this affects the network loss.
+      4. Similarly try out a small value for the regularization and check how this affects the loss. You should expect a slight increase in loss.
+      5. Optimization in the log space is easier. Use the random.uniform function in the numpy library(10**uniform(l, h)).
+      6. A random search for these hyper-parameters works out better than the grid search.
+      7. Look at all the training and Validation accuracies achieved by the network and try to optimize in areas of high accuracy.      
+      8. Monitor plots of training, validation accuracies as well as loss curves:          
+         A big difference between Train and Val accuracy(Overfitting) - Increase Regularization; Small difference - Model saturated. Increase model capacity.
+         Monitor loss curves for information about the learning rate effectiveness.
       
       
