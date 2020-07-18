@@ -200,8 +200,17 @@ def batchnorm_forward(x, gamma, beta, bn_param):
         # might prove to be helpful.                                          #
         #######################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-        pass
+#         import ipdb; ipdb.set_trace()
+        sample_mean = np.mean(x, axis=0)
+        sample_var = np.var(x, axis=0) + eps
+        
+        x_inter = (x - sample_mean) / np.sqrt(sample_var)
+        
+        running_mean = momentum * running_mean + (1 - momentum) * sample_mean
+        running_var = momentum * running_var + (1 - momentum) * sample_var
+        
+        out = gamma * x_inter + beta
+        cache = (x, x_inter, gamma, sample_mean, sample_var)
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         #######################################################################
@@ -215,8 +224,9 @@ def batchnorm_forward(x, gamma, beta, bn_param):
         # Store the result in the out variable.                               #
         #######################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        x_inter = (x - running_mean) / np.sqrt(running_var + eps)
+        out = gamma * x_inter + beta
 
-        pass
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         #######################################################################
@@ -257,9 +267,18 @@ def batchnorm_backward(dout, cache):
     # might prove to be helpful.                                              #
     ###########################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-    pass
-
+    x, x_inter, gamma, mean, var = cache
+    
+    num_samples = x.shape[0]
+    dbeta = np.sum(dout, axis=0)
+    dgamma = np.sum(x_inter * dout, axis=0)
+    dx_inter = dout * gamma
+    
+    dVar = np.sum(dx_inter * (x - mean) * -0.5 * var**-1.5, axis=0)
+    dMean = np.sum(-dx_inter / np.sqrt(var), axis=0) + dVar * np.sum(-2 * (x - mean), axis=0) / num_samples 
+    
+    dx = dx_inter / np.sqrt(var) + dVar * 2 * (x - mean) / num_samples + dMean / num_samples 
+    
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ###########################################################################
     #                             END OF YOUR CODE                            #
