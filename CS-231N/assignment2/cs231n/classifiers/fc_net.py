@@ -210,9 +210,15 @@ class FullyConnectedNet(object):
         # parameters should be initialized to zeros.                               #
         ############################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-        pass
-
+        layer_sizes = hidden_dims + [num_classes]
+        
+        for i in range(1, self.num_layers + 1):
+            if i == 1:
+                self.params['W' + str(i)] = weight_scale * np.random.randn(input_dim, layer_sizes[i - 1])
+            else:
+                self.params['W' + str(i)] = weight_scale * np.random.randn(layer_sizes[i - 2], layer_sizes[i - 1])
+            self.params['b' + str(i)] = np.zeros(layer_sizes[i - 1])
+            
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################
         #                             END OF YOUR CODE                             #
@@ -240,7 +246,7 @@ class FullyConnectedNet(object):
 
         # Cast all parameters to the correct datatype
         for k, v in self.params.items():
-            self.params[k] = v.astype(dtype)
+            self.params[k] = v.astype(dtype)        
 
     def loss(self, X, y=None):
         """
@@ -272,9 +278,22 @@ class FullyConnectedNet(object):
         # layer, etc.                                                              #
         ############################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-        pass
-
+        num_train = X.shape[0]
+        x_input = X
+        outputs = {}        
+        
+        for i in range(1, self.num_layers):
+            outputs['z' + str(i)], outputs['cache_z' + str(i)] = affine_forward(
+                x_input, self.params['W' + str(i)], self.params['b' + str(i)])
+            outputs['a' + str(i)], outputs['cache_a' + str(i)] = relu_forward(outputs['z' + str(i)])
+            
+            x_input = outputs['a' + str(i)]
+        
+        i += 1  # For the last Affine layer
+        
+        outputs['z' + str(i)], outputs['cache_z' + str(i)] = affine_forward(x_input, self.params['W' + str(i)], self.params['b' + str(i)])       
+        scores = outputs['z'+ str(i)]
+        
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################
         #                             END OF YOUR CODE                             #
@@ -299,9 +318,34 @@ class FullyConnectedNet(object):
         # of 0.5 to simplify the expression for the gradient.                      #
         ############################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        loss, dout = softmax_loss(scores, y)
+        
+        i = self.num_layers
+        
+        W = self.params['W' + str(i)]
+        loss += self.reg * 0.5 * np.sum(W * W)
+        
+        dx, dw, db = affine_backward(dout, outputs['cache_z' + str(i)])
+        grads['b' + str(i)] = np.sum(dout, axis=0)
+        grads['W' + str(i)] = dw + self.reg * W      
+                
+        for i in range(self.num_layers - 1, 0, -1):
+            dout = relu_backward(dx, outputs['cache_a' + str(i)])            
+            dx, dw, db = affine_backward(dout, outputs['cache_z' + str(i)])            
+            
+            W = self.params['W' + str(i)]
+            loss += self.reg * 0.5 * np.sum(W * W)
+            
+            grads['b' + str(i)] = db            
+            grads['W' + str(i)] = dw + self.reg * W
+            
+        '''  Debug '''
+        '''
+        for key in grads:
+            print(key, grads[key].shape)
+        '''
 
-        pass
-
+            
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################
         #                             END OF YOUR CODE                             #
