@@ -27,7 +27,7 @@ Lecture 6: Training Networks
       | Rectified Linear Unit (RELU) | max(0, x) | -> No saturation in the positive region. <br> -> Efficient computation and faster convergence | -> Non zero centered. <br> -> Dead Relu's if x < 0 (Can happen because of bad initialization of weights or if the learning rate is too high) <br>|
       | Leaky RELU | max(0.01x, x) | -> All pros of Relu's <br> -> No dying Relu's here because of a gradient in the negative direction too. | n |
       | Parametric RELU | max(αx, x) | α is a hyperparameter that needs to be optimized | -> |
-      | Exponential LU | = x  if x > 0 <br> = α * (e<sup>x</sup> - 1) if x <= 0| -> All RELU benfits hold for this. <br> -> Almost zero centered output. <br> -> Negative region saturates for a large negative value. Provides Noise robustness.| -> |
+      | Exponential LU | = x  if x > 0         <br> = α * (e<sup>x</sup> - 1) if x <= 0                  | -> All RELU benfits hold for this. <br> -> Almost zero centered output. <br> -> Negative region saturates for a large negative value. Provides Noise robustness.| -> |
   
   
   2. Data Pre-processing(Zero Centered Data)
