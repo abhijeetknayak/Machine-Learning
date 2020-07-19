@@ -22,7 +22,9 @@ Lecture 6: Training Networks
   1. Choice of Activation functions for your network:
       | Activation Function | f(x) | Pros | Cons |
       | :---: | :---: | :---: | :---: |
-      | Sigmoid | 1 / (1 + e<sup>-x</sup>) | None. Don't use this | 1. Output isn't zero centered. 2. Kills gradient flow as a result of saturation at a high or low x-value |
+      | Sigmoid | 1 / (1 + e<sup>-x</sup>) | None. Don't use this | 
+      1. Output isn't zero centered. 
+      2. Kills gradient flow as a result of saturation at a high or low x-value |
       | Tanh Activation function | tanh(x) | Zero Centered output  | b |
       | Rectified Linear Unit (RELU) | max(0, x) | x | n |
       | Leaky RELU | max(0.01x, x) | x | n |
