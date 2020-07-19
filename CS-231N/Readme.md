@@ -19,7 +19,9 @@ Lecture 5:
 
 
 Lecture 6: Training Networks
-  1. Choice of Activation functions for your network
+  1. Choice of Activation functions for your network:
+      | Tables        | Are           | Cool  |
+      | Tables        | Are           | Cool  |
       | Tables        | Are           | Cool  |
   
   
