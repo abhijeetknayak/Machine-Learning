@@ -22,7 +22,7 @@ Lecture 6: Training Networks
   1. Choice of Activation functions for your network:
       | Activation Function | f(x) | Pros | Cons |
       | :---: | :---: | :---: | :---: |
-      | Sigmoid | 1 / (1 + e<sup>(-x)</sup>) | x | n |
+      | Sigmoid | 1 / (1 + e<sup>-x</sup>) | x | n |
       | Tanh Activation function | tanh(x) | Cool  | b |
       | Rectified Linear Unit (RELU) | max(0, x) | x | n |
       | Leaky RELU | max(0.01x, x) | x | n |
