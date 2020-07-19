@@ -20,10 +20,10 @@ Lecture 5:
 
 Lecture 6: Training Networks
   1. Choice of Activation functions for your network:
-      | Tables        | Are           | Cool  |
-      | --- | --- | --- |
-      | Tables        | Are           | Cool  |
-      | Tables        | Are           | Cool  |
+      | Activation Function | f(x) | Pros | Cons |
+      | --- | --- | --- | --- |
+      | Sigmoid | 1 / (1 + e<sup>-x)| x | n |
+      | Tables        | Are           | Cool  | b |
   
   
   2. Data Pre-processing(Zero Centered Data)
