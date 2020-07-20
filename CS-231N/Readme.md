@@ -20,7 +20,7 @@ Lecture 5:
 
 Lecture 6: Training Networks
   1. Choice of Activation functions for your network:
-      | Activation Function | f(x) | Pros | Cons |
+      | Activation Function | f(x) <img></img> | Pros | Cons |
       | :---: |---| :--- | :--- |
       | Sigmoid | 1 / (1 + e<sup>-x</sup>) | -> None. Don't use this | -> Output isn't zero centered. <br> -> Kills gradient flow as a result of saturation at a high or low x-value |
       | Tanh Activation function | tanh(x) | -> Zero Centered output. Optimization is efficient compared to sigmoid <br>  | -> Saturation kills the gradient flow(high or low x-value) |
@@ -28,7 +28,7 @@ Lecture 6: Training Networks
       | Leaky RELU | max(0.01x, x) | -> All pros of Relu's <br> -> No dying Relu's here because of a gradient in the negative direction too. | n |
       | Parametric RELU | max(αx, x) | α is a hyperparameter that needs to be optimized | -> |
       | Exponential LU | = x  if x > 0 <br> = α * (e<sup>x</sup> - 1) if x <= 0 | -> All RELU benfits hold for this. <br> -> Almost zero centered output. <br> -> Negative region saturates for a large negative value. Provides Noise robustness.| -> |
-      |<img width=200/>|<img width=500/>| | |
+      |<img width=200/>|<img width=375/>| | |
   
   
   2. Data Pre-processing(Zero Centered Data)
