@@ -1,24 +1,22 @@
-Lecture 1:
+**Lecture 1** : 
+An overview of Computer Vision and problems everyone is trying to solve.
+
+**Lecture 2 : K-Nearest Neighbor Classifier**
+
+
+**Lecture 3 : **
 
 
 
-Lecture 2:
+**Lecture 4 : Loss Functions and Optimization**
 
 
 
-Lecture 3:
+**Lecture 5 : Convolutional Neural Networks**
 
 
 
-Lecture 4:
-
-
-
-Lecture 5:
-
-
-
-Lecture 6: Training Networks
+**Lecture 6 : Training Networks**
   1. Choice of Activation functions for your network:
       | Activation Function | f(x) <img></img> | Pros | Cons |
       | :---: |---| :--- | :--- |
@@ -31,7 +29,13 @@ Lecture 6: Training Networks
       |<img width=200/>|<img width=375/>| | |
   
   
-  2. Data Pre-processing(Zero Centered Data)
+  2. Data Pre-processing(Zero Centered Data) :
+      Why is zero mean data required? Assume a scenario where all the inputs(X) is positive. You forward propagate through the network and obtain a loss value.<br>
+      During backprop at this layer, the upstream gradient can either be positive or negative. The local gradient of W is X.<br>
+      Therefore, the gradient of W is either all positive or all negative. This leaves us with only two directions of optimizations, which may not be optimal.<br>
+      By zero centering your data, you would have an equal number of poisitve and negative inputs(almost), thereby providing multiple directions for updates.<br>
+      
+      **X_new = (X - Mean(X)) / StdDev(X)**
   
   
   3. Initialization of Weights for robustness of network
@@ -53,10 +57,11 @@ Lecture 6: Training Networks
          Monitor loss curves for information about the learning rate effectiveness.
          
 **Lecture 7 : Optimization Algorithms** <br><br>
-  A Number of optimization methods are defined. The simplest one among these is the Stochastic Gradient descent. Although its a good way to optimize the parameters of your model, the algorithm has its own drawbacks, which leads to inefficient optimization. These are : <br><br>
-    1. If the sensitivity of the parameters are different along different directions, it results in sub-optimal optimization(zig-zag) instead of going directly along the direction of highest gradient descent.
-    2. Stochasticity introduces its own problems, where in the mini-batch that is used to update the parameters in an iteration might lead to noisy gradients, thereby resulting in a wrong update. The updates, thereby, are jittery.
-    3. Sub-optimal minima or Saddle points may be reached by the function. In regions around these saddle points, the gradients are close to zero, which would reduce the rate of update and inturn, increase the training time. 
+  A Number of optimization methods are defined. The simplest one among these is the Stochastic Gradient descent. Although its a good way to optimize the parameters of your model, the algorithm has its own drawbacks, which leads to inefficient optimization.<br>
+  These are : <br>
+  1. If the sensitivity of the parameters are different along different directions, it results in sub-optimal optimization(zig-zag) instead of going directly along the direction of highest gradient descent.
+  2. Stochasticity introduces its own problems, where in the mini-batch that is used to update the parameters in an iteration might lead to noisy gradients, thereby resulting in a wrong update. The updates, thereby, are jittery.
+  3. Sub-optimal minima or Saddle points may be reached by the function. In regions around these saddle points, the gradients are close to zero, which would reduce the rate of update and inturn, increase the training time. 
   
   Inorder to resolve these issues with the optimization algorithm, a number of other techniques are defined : <br>
    1. **SGD with Momentum** : This is similar to the SGD but parameters are updated, not using the gradient, but with a 'velocity' value. This 'velocity' value is defined by using the gradient. The accumulated velocity is used as the gradient. The intuition here is that if you reach a saddle point, the momentum accumulated would help you cross the saddle point. <br>
