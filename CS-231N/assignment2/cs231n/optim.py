@@ -162,17 +162,18 @@ def adam(w, dw, config=None):
     
     t += 1
     
-    m = beta1 * m + (1 - beta1) * dw
-    v = beta2 * v + (1 - beta2) * dw * dw
+    m = beta1 * m + (1 - beta1) * dw  # Momentum
+    v = beta2 * v + (1 - beta2) * dw * dw  # RMSProp
     
-    m_biasCorrected = m / (1 - beta1 ** t)
+    m_biasCorrected = m / (1 - beta1 ** t)  # Bias Corrections
     v_biasCorrected = v / (1 - beta2 ** t)
     
-    w -= lr * m_biasCorrected / (np.sqrt(v_biasCorrected) + eps)
+    w -= lr * m_biasCorrected / (np.sqrt(v_biasCorrected) + eps)  # Final update
     next_w = w
     
     config["m"] = m
     config["v"] = v
+    config["t"] = t
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ###########################################################################
