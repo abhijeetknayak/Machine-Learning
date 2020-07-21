@@ -283,17 +283,21 @@ class FullyConnectedNet(object):
         outputs = {}        
         
         for i in range(1, self.num_layers):
-            outputs['z' + str(i)], outputs['cache_z' + str(i)] = affine_forward(
+            # Affine Layer
+            x_input, outputs['cache_z' + str(i)] = affine_forward(
                 x_input, self.params['W' + str(i)], self.params['b' + str(i)])
-            outputs['a' + str(i)], outputs['cache_a' + str(i)] = relu_forward(outputs['z' + str(i)])
             
-            x_input = outputs['a' + str(i)]
-        
+            # Activation Function
+            x_input, outputs['cache_a' + str(i)] = relu_forward(x_input)
+            
+            # Dropout           
+            if self.use_dropout:
+                x_input, outputs['cache_do' + str(i)] = dropout_forward(x_input, self.dropout_param)
+                    
         i += 1  # For the last Affine layer
         
-        outputs['z' + str(i)], outputs['cache_z' + str(i)] = affine_forward(x_input, self.params['W' + str(i)], self.params['b' + str(i)])       
-        scores = outputs['z'+ str(i)]
-        
+        scores, outputs['cache_z' + str(i)] = affine_forward(x_input, self.params['W' + str(i)], self.params['b' + str(i)])       
+                
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################
         #                             END OF YOUR CODE                             #
@@ -327,11 +331,14 @@ class FullyConnectedNet(object):
         
         dx, dw, db = affine_backward(dout, outputs['cache_z' + str(i)])
         grads['b' + str(i)] = np.sum(dout, axis=0)
-        grads['W' + str(i)] = dw + self.reg * W      
-                
+        grads['W' + str(i)] = dw + self.reg * W    
+                        
         for i in range(self.num_layers - 1, 0, -1):
-            dout = relu_backward(dx, outputs['cache_a' + str(i)])            
-            dx, dw, db = affine_backward(dout, outputs['cache_z' + str(i)])            
+            if self.use_dropout:
+                dx = dropout_backward(dx, outputs['cache_do' + str(i)])
+            
+            dx = relu_backward(dx, outputs['cache_a' + str(i)])            
+            dx, dw, db = affine_backward(dx, outputs['cache_z' + str(i)])
             
             W = self.params['W' + str(i)]
             loss += self.reg * 0.5 * np.sum(W * W)
