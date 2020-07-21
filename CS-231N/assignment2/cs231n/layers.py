@@ -311,7 +311,14 @@ def batchnorm_backward_alt(dout, cache):
     # single statement; our implementation fits on a single 80-character line.#
     ###########################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
+    x, x_inter, gamma, mean, var = cache
+    
+    num_samples = x.shape[0]
+    dbeta = np.sum(dout, axis=0)
+    dgamma = np.sum(x_inter * dout, axis=0)
+    dx_inter = dout * gamma
+    
+    
     pass
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
@@ -441,9 +448,17 @@ def dropout_forward(x, dropout_param):
         # Store the dropout mask in the mask variable.                        #
         #######################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-        pass
-
+        N = x.shape[0]
+        x_inter = x.reshape(N, -1)
+        
+        mask = np.zeros(x_inter.shape)        
+        mask1 = np.random.rand(x_inter.shape[0], x_inter.shape[1])
+        
+        mask[mask1 < p] = 1  # If the number is less than p, we keep that neuron
+        x_inter = x_inter * mask / p  # Inverted Dropout Implementation
+        
+        out = x_inter.reshape(x.shape)
+        
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         #######################################################################
         #                           END OF YOUR CODE                          #
@@ -453,8 +468,7 @@ def dropout_forward(x, dropout_param):
         # TODO: Implement the test phase forward pass for inverted dropout.   #
         #######################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-        pass
+        out = x
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         #######################################################################
@@ -484,8 +498,8 @@ def dropout_backward(dout, cache):
         # TODO: Implement training phase backward pass for inverted dropout   #
         #######################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-        pass
+        assert(dropout_param["p"] > 0.0)
+        dx = mask * dout / dropout_param["p"]  # Backprop only to valid neurons in that layers during that iteration
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         #######################################################################
