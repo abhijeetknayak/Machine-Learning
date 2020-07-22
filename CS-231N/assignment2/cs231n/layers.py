@@ -274,6 +274,7 @@ def batchnorm_backward(dout, cache):
     dgamma = np.sum(x_inter * dout, axis=0)
     dx_inter = dout * gamma
     
+    # From Batch Normalization Paper!!!
     dVar = np.sum(dx_inter * (x - mean) * -0.5 * var**-1.5, axis=0)
     dMean = np.sum(-dx_inter / np.sqrt(var), axis=0) + dVar * np.sum(-2 * (x - mean), axis=0) / num_samples 
     
@@ -313,14 +314,13 @@ def batchnorm_backward_alt(dout, cache):
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     x, x_inter, gamma, mean, var = cache
     
-    num_samples = x.shape[0]
+    N = x.shape[0]
     dbeta = np.sum(dout, axis=0)
     dgamma = np.sum(x_inter * dout, axis=0)
-    dx_inter = dout * gamma
     
+    # We've reached the stage where we would have to do an alternate backward propagation 
+    dx = gamma * (N * dout - np.sum(dout, axis=0) - (x - mean) * np.sum((dout * (x - mean)), axis=0) / var) / (np.sqrt(var) * N)
     
-    pass
-
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ###########################################################################
     #                             END OF YOUR CODE                            #
