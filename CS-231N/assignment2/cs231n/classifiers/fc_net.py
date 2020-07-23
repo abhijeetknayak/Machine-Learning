@@ -219,6 +219,11 @@ class FullyConnectedNet(object):
                 self.params['W' + str(i)] = weight_scale * np.random.randn(layer_sizes[i - 2], layer_sizes[i - 1])
             self.params['b' + str(i)] = np.zeros(layer_sizes[i - 1])
             
+            # Batch Normalization parameters
+            if self.normalization is not None and i != self.num_layers:
+                self.params['gamma' + str(i)] = np.ones(layer_sizes[i - 1])
+                self.params['beta' + str(i)] = np.zeros(layer_sizes[i - 1])
+            
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         ############################################################################
         #                             END OF YOUR CODE                             #
@@ -287,6 +292,11 @@ class FullyConnectedNet(object):
             x_input, outputs['cache_z' + str(i)] = affine_forward(
                 x_input, self.params['W' + str(i)], self.params['b' + str(i)])
             
+            # Batch Normalization
+            if self.normalization is not None:
+                x_input, outputs['cache_bn' + str(i)] = batchnorm_forward(
+                    x_input, self.params['gamma' + str(i)], self.params['beta' + str(i)], self.bn_params[i - 1])
+            
             # Activation Function
             x_input, outputs['cache_a' + str(i)] = relu_forward(x_input)
             
@@ -337,7 +347,12 @@ class FullyConnectedNet(object):
             if self.use_dropout:
                 dx = dropout_backward(dx, outputs['cache_do' + str(i)])
             
-            dx = relu_backward(dx, outputs['cache_a' + str(i)])            
+            dx = relu_backward(dx, outputs['cache_a' + str(i)])   
+            
+            # BatchNorm BackProp
+            if self.normalization is not None:
+                dx, grads['gamma' + str(i)], grads['beta' + str(i)] = batchnorm_backward_alt(dx, outputs['cache_bn' + str(i)])
+            
             dx, dw, db = affine_backward(dx, outputs['cache_z' + str(i)])
             
             W = self.params['W' + str(i)]
