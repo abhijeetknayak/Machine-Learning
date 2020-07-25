@@ -544,9 +544,25 @@ def conv_forward_naive(x, w, b, conv_param):
     # Hint: you can use the function np.pad for padding.                      #
     ###########################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-    pass
-
+    N, C, H, W = x.shape
+    F, _, HH, WW = w.shape
+    p, s = conv_param['pad'], conv_param['stride']
+    
+    H_ = 1 + (H - HH + 2 * p) // s  # s can never be 0
+    W_ = 1 + (W - WW + 2 * p) // s
+    
+    out = np.zeros((N, F, H_, W_))  # Correct Output type    
+    
+    x_mod = np.pad(x, ((0, ), (0, ), (p, ), (p, )), 'constant')  # Padded X
+    
+    for n in range(N):  # For all samples
+        for f in range(F):  # for all filters in W
+            for i in range(0, H_):  # Iterating over height and width, with stride s
+                i_ = i * s
+                for j in range(0, W_):
+                    j_ = j * s
+                    out[n, f, i, j] = np.sum(x_mod[n, :, i_:i_ + HH, j_:j_ + WW] * w[f, :, :, :]) + b[f]
+          
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ###########################################################################
     #                             END OF YOUR CODE                            #
@@ -573,6 +589,18 @@ def conv_backward_naive(dout, cache):
     # TODO: Implement the convolutional backward pass.                        #
     ###########################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    x, w, b, conv_param = cache
+    p, s = conv_param["pad"], conv_param["stride"]
+    
+#     db = np.sum(np.sum(np.sum(dout, axis=0), axis=1), axis=1)
+    db = np.sum(dout, (0, 2, 3))
+    w_ = np.flip(w, (2, 3))
+    w_ = np.sum(w_, (1))
+    import pdb; pdb.set_trace()
+    print(w_.shape)
+    
+    dx, _ = conv_forward_naive(dout, w_, np.zeros((b.shape)), conv_param)
+    
 
     pass
 
