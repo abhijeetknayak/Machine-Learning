@@ -591,19 +591,32 @@ def conv_backward_naive(dout, cache):
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     x, w, b, conv_param = cache
     p, s = conv_param["pad"], conv_param["stride"]
+    import pdb
     
-#     db = np.sum(np.sum(np.sum(dout, axis=0), axis=1), axis=1)
+    N, C, H, W = x.shape
+    F, _, HH, WW = w.shape
+    _, _, H_, W_ = dout.shape    
+    
+    dx = np.zeros(x.shape)
+    dw = np.zeros(w.shape)
+    
     db = np.sum(dout, (0, 2, 3))
+    
     w_ = np.flip(w, (2, 3))
-    w_ = np.sum(w_, (1))
-    import pdb; pdb.set_trace()
-    print(w_.shape)
+    w_ = w_.transpose((1, 0, 2, 3)) # Places different channels of W together by Transposing
     
-    dx, _ = conv_forward_naive(dout, w_, np.zeros((b.shape)), conv_param)
+    # Now use w_ for convolution with dout
+    dx, _ = conv_forward_naive(dout, w_, np.zeros((w_.shape[0])), conv_param)
+#     dw, _ = conv_forward_naive(x, dout, np.zeros((10)), conv_param)
     
-
-    pass
-
+    for n in range(N):
+        for f in range(F):
+            for c in range(C):
+                for i in range(HH):
+                    for j in range(WW):
+                        dw[f, c, i, j] += np.sum(dout[n, f, p:H_ - 2 * p + 1, p:W_ - 2 * p + 1] * x[n, c, i * s:i*s + HH, j*s:j*s + WW])
+ 
+    
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ###########################################################################
     #                             END OF YOUR CODE                            #
