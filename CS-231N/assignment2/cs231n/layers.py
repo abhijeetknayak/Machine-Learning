@@ -607,16 +607,16 @@ def conv_backward_naive(dout, cache):
     
     # Now use w_ for convolution with dout
     dx, _ = conv_forward_naive(dout, w_, np.zeros((w_.shape[0])), conv_param)
-#     dw, _ = conv_forward_naive(x, dout, np.zeros((10)), conv_param)
     
-    for n in range(N):
-        for f in range(F):
+    x_mod = np.pad(x, ((0, ), (0, ), (p, ), (p, )), 'constant')  # Padded X
+    
+    for n in range(N):  # For all samples
+        for f in range(F):  # for all filters in W
             for c in range(C):
                 for i in range(HH):
                     for j in range(WW):
-                        dw[f, c, i, j] += np.sum(dout[n, f, p:H_ - 2 * p + 1, p:W_ - 2 * p + 1] * x[n, c, i * s:i*s + HH, j*s:j*s + WW])
- 
-    
+                        dw[f, c, i, j] += np.sum(dout[n, f, :, :] * x_mod[n, c, i * s:i * s + H_, j * s:j * s + W_])
+        
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ###########################################################################
     #                             END OF YOUR CODE                            #
@@ -648,9 +648,23 @@ def max_pool_forward_naive(x, pool_param):
     # TODO: Implement the max-pooling forward pass                            #
     ###########################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-    pass
-
+    N, C, H, W = x.shape
+    ph, pw, s = pool_param['pool_height'], pool_param['pool_width'], pool_param['stride']
+    
+    H_out = 1 + (H - ph) // s
+    W_out = 1 + (W - pw) // s
+    
+    out = np.zeros((N, C, H_out, W_out))
+    
+    for n in range(N):
+        for c in range(C):
+            for h in range(H_out):
+                h_ = h * s  # Scaling the iteration by stride
+                for w in range(W_out): 
+                    w_ = w * s
+                    # Pooling over the region
+                    out[n, c, h, w] = np.max(x[n, c, h_ : h_ + ph, w_ : w_ + pw])
+                
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ###########################################################################
     #                             END OF YOUR CODE                            #
