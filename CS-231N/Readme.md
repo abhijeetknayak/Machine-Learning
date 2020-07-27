@@ -9,6 +9,19 @@ An overview of Computer Vision and problems everyone is trying to solve.
 
 
 **Lecture 4 : Loss Functions and Optimization**
+A Loss function, in essence, is a measure of **how bad the learned weights of a model are.**<br>
+The loss function includes model **prediction** and then a **comparison** between the predicted value and the true value. <br>
+Depending on the output of your loss function, you would know if your model is any good. <br>
+
+L = 
+
+The learning part is introduced with the loss function. While training a model, you would always want to reduce your loss by optimizing your model after each iteration. This is where optimization comes in. As you would like to minimize your model loss, the optimization is always performed in the direction of the highest gradient(or slope.)
+
+  1. Hinge Loss : L = 
+  
+  
+  
+  2. Softmax Loss :
 
 
 
@@ -90,6 +103,8 @@ An overview of Computer Vision and problems everyone is trying to solve.
     1. Exponential Decay : **α = α<sub>0</sub> * e<sup>-Kt</sup>** (K - Decay rate)<br>
     2. 1 / t Decay : **α = α<sub>0</sub> / (1 + Kt)** (K - Decay rate) <br>
     3. Decay in phases : Depnding on the total number of iterations, decay the learning rate after a certain count is reached.
+    
+  **Dropout Layer**:
     
     
     
