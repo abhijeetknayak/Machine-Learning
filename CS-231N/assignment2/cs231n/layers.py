@@ -364,9 +364,20 @@ def layernorm_forward(x, gamma, beta, ln_param):
     # the batch norm code and leave it almost unchanged?                      #
     ###########################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-    pass
-
+    N, D = x.shape
+    ln_param["mode"] = "train"    
+    
+    out, cache = batchnorm_forward(x.T, gamma[:, np.newaxis], beta[:, np.newaxis], ln_param)
+    out = out.T
+    
+#     mean = np.mean(x, axis=1)
+#     var = np.var(x, axis=1) + eps
+    
+#     std = np.sqrt(var)
+    
+#     x_inter = (x.T - mean) / std
+    
+#     out = x_inter.T * gamma + beta
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ###########################################################################
     #                             END OF YOUR CODE                            #
@@ -399,8 +410,13 @@ def layernorm_backward(dout, cache):
     # still apply!                                                            #
     ###########################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-    pass
+    
+    ''' The only difference here compared to Batchnorm is that the working axis is different
+    Therefore, you would need to transpose the inputs (dout in this case), and then apply a 
+    Batchnorm Back prop, and ultimately transpose the outputs received too, to match the
+    dimensions'''
+    dx, dgamma, dbeta = batchnorm_backward_alt(dout.T, cache)     # [D * N]
+    dx = dx.T
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ###########################################################################
@@ -604,7 +620,7 @@ def conv_backward_naive(dout, cache):
     
     w_ = np.flip(w, (2, 3))
     w_ = w_.transpose((1, 0, 2, 3)) # Places different channels of W together by Transposing
-    
+        
     # Now use w_ for convolution with dout
     dx, _ = conv_forward_naive(dout, w_, np.zeros((w_.shape[0])), conv_param)
     
