@@ -123,8 +123,8 @@ There are many ways to prevent overfitting :
   
   Instead of this you can also use an **"Inverted Dropout"**.  At train time, divide the input by the keep probability p, at test time no changes are required. 
     
-**Lecture 8 : Deep Learning Software**
-CPU vs GPU : <br>
+**Lecture 8 : Deep Learning Software** <br>
+----> CPU vs GPU : <br>
 A **CPU** has lesser number of cores, but these have much higher clock sppeds compared to GPU cores, and hence are better preferred for sequential tasks. Memory shared with the system. <br>
 A **GPU** has thousands of cores, but have small clock speeds, and are only used for parallel processing. They also have their own memory. <br>  
 *Why using a GPU is useful for Deep Learning* : At the core of Deep Learning, there is a lot of matrix multiplication(or you could say repetitive tasks). The whole process of multiplying two matrices can be divided into sub-tasks which can be parallelized. Therefore, it would be much faster using a GPU for this task, rather than using a CPU. 
@@ -133,6 +133,17 @@ Model parameters are stored in the GPU memory, whereas the training data is stor
 *Why Deep Learning Software is preferred* : <br>
   1. Lets you concentrate on developing the forward pass of your model. Gradients are computed by the software. <br>
   2. Provides you the option to run the computations either using the CPU or the GPU. <br>
+  
+**Static vs Dynamic Graphs** : <br>
+In Tensorflow, we create the computational graph first and then run it multiple times. These are static graphs. <br>
+While using PyTorch, the graph is created multiple times(created within the loop). These are Dynamic graphs. <br>
+
+| Static Graphs | Dynamic Graphs |
+| :---: | :---: |
+| Graph created once. Run Multiple times | Graphs created multiple times |
+| As the graph is created once, the code to create the graph is not required anymore if the graph itself is stored| The code to create the graph is required everytime you want to process new data |
+| Need to learn new constructs to actually create a graph that represents the full model(eg. cond constructs, etc) | Can code the graph easily in numpy code. No need of new constructs |
+
   
 
       
