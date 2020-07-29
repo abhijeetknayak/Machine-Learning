@@ -69,7 +69,8 @@ The learning part is introduced with the loss function. While training a model, 
          A big difference between Train and Val accuracy(Overfitting) - Increase Regularization; Small difference - Model saturated. Increase model capacity.
          Monitor loss curves for information about the learning rate effectiveness.
          
-**Lecture 7 : Optimization Algorithms** <br><br>
+**Lecture 7 : Training your Network** <br>
+*Optimization Algorithms :*<br><br>
   A Number of optimization methods are defined. The simplest one among these is the Stochastic Gradient descent. Although its a good way to optimize the parameters of your model, the algorithm has its own drawbacks, which leads to inefficient optimization.<br>
   These are : <br>
   1. If the sensitivity of the parameters are different along different directions, it results in sub-optimal optimization(zig-zag) instead of going directly along the direction of highest gradient descent.
@@ -104,8 +105,23 @@ The learning part is introduced with the loss function. While training a model, 
     2. 1 / t Decay : **α = α<sub>0</sub> / (1 + Kt)** (K - Decay rate) <br>
     3. Decay in phases : Depnding on the total number of iterations, decay the learning rate after a certain count is reached.
     
-  **Dropout Layer**:
-    
+*Reducing the gap between the Train and Validation error :*  <br>
+During training, if you motice that the gap between the train and validation error is high, it means that the model is being overfit to the training data.<br>
+When this happens, you would want to increase the model loss so that it prevents the model from fitting the train data too well. 
+There are many ways to prevent overfitting :
+  1. Model Ensembles : 
+  
+  2. 
+  
+  3. **Regularization** :<br>
+  As we have already seen, we use some amount of regularization(add a regularization loss to the data loss). While learning, this would tell the model not to fit the train data too well. If you use L2 regularization, it would mean that you want to spread your parameters across the whole range rather than having them concentrated in certain regions. If L2 Reg is used, you would want to concentrate on certain features only.<br>
+  4. **Dropout Layer** :<br>
+  Instead of training multiple models(model ensembles), Dropout is something we can use to get the same effect. What happens in dropout layers is that certain randomly chosen activations of a particular layer are set to zero. <br>
+  The intuition here is that, by blocking a random set of activations, the model would learn the most optimized feature set to classify an example correctly.<br>
+  At train time : Block a random number of activations(**keep probability p**). Back-Propagate only to these nodes. <br>
+  At test time : Multiply predicted output by keep probability p. This is done because you wouldn't want randomness in your model while predicting new unseen data. <br>
+  
+  Instead of this you can also use an **"Inverted Dropout"**.  At train time, divide the input by the keep probability p, at test time no changes are required. 
     
     
   
