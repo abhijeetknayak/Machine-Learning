@@ -123,8 +123,16 @@ There are many ways to prevent overfitting :
   
   Instead of this you can also use an **"Inverted Dropout"**.  At train time, divide the input by the keep probability p, at test time no changes are required. 
     
-    
-  
+**Lecture 8 : Deep Learning Software**
+CPU vs GPU : <br>
+A **CPU** has lesser number of cores, but these have much higher clock sppeds compared to GPU cores, and hence are better preferred for sequential tasks. Memory shared with the system. <br>
+A **GPU** has thousands of cores, but have small clock speeds, and are only used for parallel processing. They also have their own memory. <br>  
+*Why using a GPU is useful for Deep Learning* : At the core of Deep Learning, there is a lot of matrix multiplication(or you could say repetitive tasks). The whole process of multiplying two matrices can be divided into sub-tasks which can be parallelized. Therefore, it would be much faster using a GPU for this task, rather than using a CPU. 
+In a CPU, all of these tasks happen sequentially, and with exploding sizes of matrices, the amount of time these computations take might be a lot. <br>
+Model parameters are stored in the GPU memory, whereas the training data is stored on the hard drive. This might create a bottleneck on data access by the GPU. Best possible solutions are to, either read all data into the system RAM, use a SSD or running CPU threads in the background to fetch data into the GPU. <br>
+*Why Deep Learning Software is preferred* : <br>
+  1. Lets you concentrate on developing the forward pass of your model. Gradients are computed by the software. <br>
+  2. Provides you the option to run the computations either using the CPU or the GPU. <br>
   
 
       
