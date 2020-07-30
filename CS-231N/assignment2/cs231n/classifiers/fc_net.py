@@ -247,7 +247,7 @@ class FullyConnectedNet(object):
         if self.normalization == "batchnorm":
             self.bn_params = [{"mode": "train"} for i in range(self.num_layers - 1)]
         if self.normalization == "layernorm":
-            self.bn_params = [{} for i in range(self.num_layers - 1)]
+            self.bn_params = [{"mode": "train"} for i in range(self.num_layers - 1)]
 
         # Cast all parameters to the correct datatype
         for k, v in self.params.items():
@@ -293,9 +293,12 @@ class FullyConnectedNet(object):
                 x_input, self.params['W' + str(i)], self.params['b' + str(i)])
             
             # Batch Normalization
-            if self.normalization is not None:
+            if self.normalization is "batchnorm":
                 x_input, outputs['cache_bn' + str(i)] = batchnorm_forward(
                     x_input, self.params['gamma' + str(i)], self.params['beta' + str(i)], self.bn_params[i - 1])
+            elif self.normalization is "layernorm":
+                x_input, outputs['cache_ln' + str(i)] = layernorm_forward(
+                    x_input, self.params['gamma' + str(i)], self.params['beta' + str(i)], self.ln_params[i - 1])                
             
             # Activation Function
             x_input, outputs['cache_a' + str(i)] = relu_forward(x_input)
@@ -350,8 +353,10 @@ class FullyConnectedNet(object):
             dx = relu_backward(dx, outputs['cache_a' + str(i)])   
             
             # BatchNorm BackProp
-            if self.normalization is not None:
+            if self.normalization is "batchnorm":
                 dx, grads['gamma' + str(i)], grads['beta' + str(i)] = batchnorm_backward_alt(dx, outputs['cache_bn' + str(i)])
+            elif self.normalization is "layernorm":
+                dx, grads['gamma' + str(i)], grads['beta' + str(i)] = layernorm_backward(dx, outputs['cache_ln' + str(i)])
             
             dx, dw, db = affine_backward(dx, outputs['cache_z' + str(i)])
             
