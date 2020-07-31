@@ -244,10 +244,11 @@ class FullyConnectedNet(object):
         # of the first batch normalization layer, self.bn_params[1] to the forward
         # pass of the second batch normalization layer, etc.
         self.bn_params = []
+        self.ln_params = []
         if self.normalization == "batchnorm":
             self.bn_params = [{"mode": "train"} for i in range(self.num_layers - 1)]
         if self.normalization == "layernorm":
-            self.bn_params = [{"mode": "train"} for i in range(self.num_layers - 1)]
+            self.ln_params = [{"mode": "train"} for i in range(self.num_layers - 1)]
 
         # Cast all parameters to the correct datatype
         for k, v in self.params.items():
@@ -293,10 +294,10 @@ class FullyConnectedNet(object):
                 x_input, self.params['W' + str(i)], self.params['b' + str(i)])
             
             # Batch Normalization
-            if self.normalization is "batchnorm":
+            if self.normalization == 'batchnorm':
                 x_input, outputs['cache_bn' + str(i)] = batchnorm_forward(
                     x_input, self.params['gamma' + str(i)], self.params['beta' + str(i)], self.bn_params[i - 1])
-            elif self.normalization is "layernorm":
+            elif self.normalization == 'layernorm':
                 x_input, outputs['cache_ln' + str(i)] = layernorm_forward(
                     x_input, self.params['gamma' + str(i)], self.params['beta' + str(i)], self.ln_params[i - 1])                
             
