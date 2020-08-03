@@ -144,6 +144,21 @@ While using PyTorch, the graph is created multiple times(created within the loop
 | As the graph is created once, the code to create the graph is not required anymore if the graph itself is stored| The code to create the graph is required everytime you want to process new data |
 | Need to learn new constructs to actually create a graph that represents the full model(eg. cond constructs, etc) | Can code the graph easily in numpy code. No need of new constructs |
 
+**Using Tensorflow**: <br>
+  1. **Using Tensorflow with the Low Level APIs** : Creating a computational graph first(with __tf.nn__) and then using __tf.GradientTape__ to record gradients of model parameters. Not very          useful for large networks.
+  2. **Tensorflow Keras SubClassing API** : Creating a new class for your model. Inheriting all properties of the Keras.Model in your class. <br>
+     This used the super method for inheritance. Once you define your computational graph(in the __init__) function, you need to have an explicit __call__ function
+     which will use up your input tensors, and feed it to the graph. Additionally, an optimization function is required, so as to optimize all the parameters of the model. <br>
+  3. **Tensorflow Keras Sequential API** : You could also use __tf.keras.Sequential__ to create an instance of your model. <br>
+     Then, just add layers on your model. This is very useful in case your model is sequential. But, if you have multiple inputs from different sources(or multiple outputs),          using the Sequential API is not very flexible.
+  4. **Keras Functional API** : 
+  
+**Using PyTorch** : 
+
+     
+
+
+
   
 
       
