@@ -144,6 +144,74 @@ While using PyTorch, the graph is created multiple times(created within the loop
 | As the graph is created once, the code to create the graph is not required anymore if the graph itself is stored| The code to create the graph is required everytime you want to process new data |
 | Need to learn new constructs to actually create a graph that represents the full model(eg. cond constructs, etc) | Can code the graph easily in numpy code. No need of new constructs |
 
+**Using Tensorflow**: <br>
+  1. **Using Tensorflow with the Low Level APIs** : Creating a computational graph first(with __tf.nn__) and then using __tf.GradientTape__ to record gradients of model parameters. Not very          useful for large networks.
+  2. **Tensorflow Keras SubClassing API** : Creating a new class for your model. Inheriting all properties of the Keras.Model in your class. <br>
+     This used the super method for inheritance. Once you define your computational graph(in the __init__) function, you need to have an explicit __call__ function
+     which will use up your input tensors, and feed it to the graph. Additionally, an optimization function is required, so as to optimize all the parameters of the model. <br>
+  3. **Tensorflow Keras Sequential API** : You could also use __tf.keras.Sequential__ to create an instance of your model. <br>
+     Then, just add layers on your model. This is very useful in case your model is sequential. But, if you have multiple inputs from different sources(or multiple outputs),          using the Sequential API is not very flexible.
+  4. **Keras Functional API** : 
+  
+**Using PyTorch** : 
+
+
+
+**Lecture 9 : CNN Architectures**
+
+----> **AlexNet** : <br>[[Conv] - [MaxPool] - [Normalization]] * 2 - [Conv] - [Conv] - [Conv] - [Pool] - [FC] * 3] <br>
+**Conv1** : 96 11 * 11 filters, with stride = 4 ----> Output Dimension : __55 * 55 * 96__; Learnable parameters : __11 * 11 * 3 * 96__ <br>
+**MaxPool1** : 3 * 3 filters, with stride = 2   ----> Output Dimension : __27 * 27 * 96__; Learnable parameters : __0__ <br>
+**Norm1** : Output Dimension : __27 * 27 * 96__ <br><br>
+**Conv2** : 256 5 * 5 filters, with stride = 1, pad = 2 ----> Output Dimension : __27 * 27 * 256__; Learnable parameters : __5 * 5 * 96 * 256__ <br>
+**MaxPool2** : 3 * 3 filters, with stride = 2   ----> Output Dimension : __13 * 13 * 256__; Learnable parameters : __0__<br>
+**Norm2** : Output Dimension : __13 * 13 * 256__ <br><br>
+**Conv3** : 384 3 * 3 filters, with stride = 1, pad = 1 ----> Output Dimension : __13 * 13 * 384__; Learnable parameters : __3 * 3 * 256 * 384__ <br>
+**Conv4** : 384 3 * 3 filters, with stride = 1, pad = 1 ----> Output Dimension : __13 * 13 * 384__; Learnable parameters : __3 * 3 * 384 * 384__ <br>
+**Conv5** : 256 3 * 3 filters, with stride = 1, pad = 1 ----> Output Dimension : __13 * 13 * 256__; Learnable parameters : __11 * 11 * 3 * 96__ <br>
+**MaxPool3** : 3 * 3 filters, with stride = 2   ----> Output Dimension : __6 * 6 * 256__; Learnable parameters : __0__ <br><br>
+**Dense or FC** : 4096 units; Learnable parameters : __6 * 6 * 256 * 4096__ <br>
+**Dense or FC** : 4096 units; Learnable parameters : __4096 * 4096__ <br>
+**Dense or FC** : 4096 units; Learnable parameters : __num_classes * 4096__ <br>
+
+ReLU, Dropout(0.5), BatchNorm, Learning rate Decay(when Val Accuracy Plateaus). <br>
+----> **ZFNet** : <br>
+Same architecture as AlexNet, but different filter sizes. Better hyperparameter optimization. <br>
+----> **VGG Net(16/19)** : <br>
+[[Conv] - [Conv] - [Pool]] * 3 - [[Conv] - [Conv] - [Conv] - [Pool]] * 2 - [FC] * 3 <br>
+VGG proposed the use of 3 * 3 filter for all convolutions, and introduced many more layers. <br>
+  *Why are smaller filters preferred?* <br>
+    1. The intuition here is that the receptive field is the same for 3 3 * 3 conv layers and a 7 * 7 conv layer. This means that the output of the third convolutional is              affected by a range of 7 * 7 inputs from the input layer, which is similar to a single 7 * 7 Conv layer. Therefore, the number of feature maps collected would be higher          when using smaller filters and more number of layers. <br>
+    2. Moreover, the number of learnable parameters would be much lesser in 3 3 * 3 Conv Layers, as compared to a 7 * 7 Conv layer. <br>
+       In VGGNet, the Conv layers always preserve the dimensions, whereas the pooling reduces dimensions by half. As we go deeper, the number of filters are increased so as to          learn more feature maps. <br>
+  Memory Used : ~96Mb / image; Total number of parameters : 138M <br>
+----> **GoogLeNet** : <br>
+    1. Creation of an **"Inception"** module, which is used repeatedly. <br>
+    2. No Fully Connected Layers used. As we've seen in VGG, most of the parameters are in FC layers. Therefore, the number of learnable parameters is greatly reduced in                GoogLeNet. <br>
+    The inception module performs **different sets of convolution and pooling**, but still maintains the same dimensions. The depth after each convolution varies.<br>
+    At the end, all the outputs from the different sets of **filters are aggregated** to get a much larger depth. As a result, the depth can only increase.
+    This presents some computational bottleneck if the depth at the input is high. <br>
+    To prevent this, a 1 * 1 convolution is used on the input(with a smaller number of filters) so as to reduce the number of computations. This is also applied after pooling to      further reduce the depth of the pooling layer. <br>
+    As a result of these operations, some information(feature maps) may be lost, but this dimension reduction helps in learning the most relevant features, thereby reducing         redundancies in the model. <br>
+    Auxiliary Outputs from lower layers - To keep the gradient flowing even in the lower layers(prevents Vanishing Gradient Problem). These are fed to FC Layers <br>
+    No Fully Connected Layers at the end. <br>
+----> **ResNet : Residual Networks**
+Training a Deep Network is an optimization problem. Optimizing a deeper network is much harder than optimizing a shallow network.<br>
+The intuition to building a resnet architecture is that the deep network should perform at least as good as the shallow network. If the ouput from the shallow layers is just mapped as an input to the top layers, the model should be able to learn weights for the top layers such that the deep model performs at least as good as the shallow layers. This mapping is termed as the **residual mapping**. The model can also learn zero weights for the top layers so that all the activations are zero, and the input from the shallow layer is just passed to the output. <br>
+**BottleNeck Layer(1 * 1 Convolution)** can be used in ResNets as well to reduce the number of computations. <br>
+Hyperparameters used are shown [here]() <br>
+**Other Architectures** :
+  1. [**Network in Network**]() - Each convolution layer uses an mlpconv layer
+  2. [**ResNeXt**]() - The width of residual blocks is increased(32 paths in one block)
+  3. [**ResNet with Stochastic Depth**]() - Some residual blocks are randomly dropped during train time. Identical to Dropout
+  4. [**DenseNet**]() - Dense layers, where outputs are concatenated
+  5. [**FractalNet**]() - Arranged as fractals. Gets rid of residual connections
+  6. [**SqueezeNet**]() - "Fire" modules with "Squeeze" Conv layers(1 * 1 Conv) and "Expand" Layers(1 * 1, 3 * 3 and so on). Increases efficiency
+
+
+
+
+
   
 
       
