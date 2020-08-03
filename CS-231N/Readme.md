@@ -155,9 +155,26 @@ While using PyTorch, the graph is created multiple times(created within the loop
   
 **Using PyTorch** : 
 
-     
 
 
+**Lecture 9 : CNN Architectures**
+
+----> **AlexNet : [[Conv] - [MaxPool] - [Normalization]] * 2 - [Conv] - [Conv] - [Conv] - [Pool] - [FC] * 3] ** <br>
+**Conv1** : 96 11 * 11 filters, with stride = 4 ----> Output Dimension : __55 * 55 * 96__; Learnable parameters : __11 * 11 * 3 * 96__ <br>
+**MaxPool1** : 3 * 3 filters, with stride = 2   ----> Output Dimension : __27 * 27 * 96__; Learnable parameters : __0__ <br>
+**Norm1** : Output Dimension : __27 * 27 * 96__ <br><br>
+**Conv2** : 256 5 * 5 filters, with stride = 1, pad = 2 ----> Output Dimension : __27 * 27 * 256__; Learnable parameters : __5 * 5 * 96 * 256__ <br>
+**MaxPool2** : 3 * 3 filters, with stride = 2   ----> Output Dimension : __13 * 13 * 256__; Learnable parameters : __0__<br>
+**Norm2** : Output Dimension : __13 * 13 * 256__ <br><br>
+**Conv3** : 384 3 * 3 filters, with stride = 1, pad = 1 ----> Output Dimension : __13 * 13 * 384__; Learnable parameters : __3 * 3 * 256 * 384__ <br>
+**Conv4** : 384 3 * 3 filters, with stride = 1, pad = 1 ----> Output Dimension : __13 * 13 * 384__; Learnable parameters : __3 * 3 * 384 * 384__ <br>
+**Conv5** : 256 3 * 3 filters, with stride = 1, pad = 1 ----> Output Dimension : __13 * 13 * 256__; Learnable parameters : __11 * 11 * 3 * 96__ <br>
+**MaxPool3** : 3 * 3 filters, with stride = 2   ----> Output Dimension : __6 * 6 * 256__; Learnable parameters : __0__ <br><br>
+**Dense or FC** : 4096 units; Learnable parameters : __6 * 6 * 256 * 4096__ <br>
+**Dense or FC** : 4096 units; Learnable parameters : __4096 * 4096__ <br>
+**Dense or FC** : 4096 units; Learnable parameters : __num_classes * 4096__ <br>
+
+ReLU, Dropout(0.5), BatchNorm, Learning rate Decay(when Val Accuracy Plateaus).
 
   
 
