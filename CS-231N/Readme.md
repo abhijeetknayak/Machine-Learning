@@ -204,8 +204,9 @@ Hyperparameters used are shown [here]() <br>
   1. [**Network in Network**]() - Each convolution layer uses an mlpconv layer
   2. [**ResNeXt**]() - The width of residual blocks is increased(32 paths in one block)
   3. [**ResNet with Stochastic Depth**]() - Some residual blocks are randomly dropped during train time. Identical to Dropout
-  4. [**DenseNet**]() - Dense layers, where outputs are concatenated.
+  4. [**DenseNet**]() - Dense layers, where outputs are concatenated
   5. [**FractalNet**]() - Arranged as fractals. Gets rid of residual connections
+  6. [**SqueezeNet**]() - "Fire" modules with "Squeeze" Conv layers(1 * 1 Conv) and "Expand" Layers(1 * 1, 3 * 3 and so on). Increases efficiency
 
 
 
