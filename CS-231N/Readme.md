@@ -159,7 +159,7 @@ While using PyTorch, the graph is created multiple times(created within the loop
 
 **Lecture 9 : CNN Architectures**
 
-----> **AlexNet : [[Conv] - [MaxPool] - [Normalization]] * 2 - [Conv] - [Conv] - [Conv] - [Pool] - [FC] * 3] ** <br>
+----> **AlexNet** : <br>[[Conv] - [MaxPool] - [Normalization]] * 2 - [Conv] - [Conv] - [Conv] - [Pool] - [FC] * 3] <br>
 **Conv1** : 96 11 * 11 filters, with stride = 4 ----> Output Dimension : __55 * 55 * 96__; Learnable parameters : __11 * 11 * 3 * 96__ <br>
 **MaxPool1** : 3 * 3 filters, with stride = 2   ----> Output Dimension : __27 * 27 * 96__; Learnable parameters : __0__ <br>
 **Norm1** : Output Dimension : __27 * 27 * 96__ <br><br>
@@ -174,7 +174,14 @@ While using PyTorch, the graph is created multiple times(created within the loop
 **Dense or FC** : 4096 units; Learnable parameters : __4096 * 4096__ <br>
 **Dense or FC** : 4096 units; Learnable parameters : __num_classes * 4096__ <br>
 
-ReLU, Dropout(0.5), BatchNorm, Learning rate Decay(when Val Accuracy Plateaus).
+ReLU, Dropout(0.5), BatchNorm, Learning rate Decay(when Val Accuracy Plateaus). <br>
+----> **ZFNet** : <br>
+Same architecture as AlexNet, but different filter sizes. Better hyperparameter optimization. <br>
+---->**VGG Net** : <br>
+[[Conv] - [Conv] - [Pool]] * 3 - [[Conv] - [Conv] - [Conv] - [Pool]] * 2 - [FC] * 3 <br>
+VGG proposed the use of 3 * 3 filter for all convolutions, and introduced many more layers.
+
+
 
   
 
