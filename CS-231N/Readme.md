@@ -177,9 +177,37 @@ While using PyTorch, the graph is created multiple times(created within the loop
 ReLU, Dropout(0.5), BatchNorm, Learning rate Decay(when Val Accuracy Plateaus). <br>
 ----> **ZFNet** : <br>
 Same architecture as AlexNet, but different filter sizes. Better hyperparameter optimization. <br>
----->**VGG Net** : <br>
+----> **VGG Net(16/19)** : <br>
 [[Conv] - [Conv] - [Pool]] * 3 - [[Conv] - [Conv] - [Conv] - [Pool]] * 2 - [FC] * 3 <br>
-VGG proposed the use of 3 * 3 filter for all convolutions, and introduced many more layers.
+VGG proposed the use of 3 * 3 filter for all convolutions, and introduced many more layers. <br>
+  *Why are smaller filters preferred?* <br>
+    1. The intuition here is that the receptive field is the same for 3 3 * 3 conv layers and a 7 * 7 conv layer. This means that the output of the third convolutional is              affected by a range of 7 * 7 inputs from the input layer, which is similar to a single 7 * 7 Conv layer. Therefore, the number of feature maps collected would be higher          when using smaller filters and more number of layers. <br>
+    2. Moreover, the number of learnable parameters would be much lesser in 3 3 * 3 Conv Layers, as compared to a 7 * 7 Conv layer. <br>
+       In VGGNet, the Conv layers always preserve the dimensions, whereas the pooling reduces dimensions by half. As we go deeper, the number of filters are increased so as to          learn more feature maps. <br>
+  Memory Used : ~96Mb / image; Total number of parameters : 138M <br>
+----> **GoogLeNet** : <br>
+    1. Creation of an **"Inception"** module, which is used repeatedly. <br>
+    2. No Fully Connected Layers used. As we've seen in VGG, most of the parameters are in FC layers. Therefore, the number of learnable parameters is greatly reduced in                GoogLeNet. <br>
+    The inception module performs **different sets of convolution and pooling**, but still maintains the same dimensions. The depth after each convolution varies.<br>
+    At the end, all the outputs from the different sets of **filters are aggregated** to get a much larger depth. As a result, the depth can only increase.
+    This presents some computational bottleneck if the depth at the input is high. <br>
+    To prevent this, a 1 * 1 convolution is used on the input(with a smaller number of filters) so as to reduce the number of computations. This is also applied after pooling to      further reduce the depth of the pooling layer. <br>
+    As a result of these operations, some information(feature maps) may be lost, but this dimension reduction helps in learning the most relevant features, thereby reducing         redundancies in the model. <br>
+    Auxiliary Outputs from lower layers - To keep the gradient flowing even in the lower layers(prevents Vanishing Gradient Problem). These are fed to FC Layers <br>
+    No Fully Connected Layers at the end. <br>
+----> **ResNet : Residual Networks**
+Training a Deep Network is an optimization problem. Optimizing a deeper network is much harder than optimizing a shallow network.<br>
+The intuition to building a resnet architecture is that the deep network should perform at least as good as the shallow network. If the ouput from the shallow layers is just mapped as an input to the top layers, the model should be able to learn weights for the top layers such that the deep model performs at least as good as the shallow layers. This mapping is termed as the **residual mapping**. The model can also learn zero weights for the top layers so that all the activations are zero, and the input from the shallow layer is just passed to the output. <br>
+**BottleNeck Layer(1 * 1 Convolution)** can be used in ResNets as well to reduce the number of computations. <br>
+Hyperparameters used are shown [here]() <br>
+**Other Architectures** :
+  1. [**Network in Network**]() - Each convolution layer uses an mlpconv layer
+  2. [**ResNeXt**]() - The width of residual blocks is increased(32 paths in one block)
+  3. [**ResNet with Stochastic Depth**]() - Some residual blocks are randomly dropped during train time. Identical to Dropout
+  4. [**DenseNet**]() - Dense layers, where outputs are concatenated.
+  5. [**FractalNet**]() - Arranged as fractals. Gets rid of residual connections
+
+
 
 
 
