@@ -159,7 +159,7 @@ While using PyTorch, the graph is created multiple times(created within the loop
 
 **Lecture 9 : CNN Architectures**
 
-----> **AlexNet** : <br>[[Conv] - [MaxPool] - [Normalization]] * 2 - [Conv] - [Conv] - [Conv] - [Pool] - [FC] * 3] <br>
+----> [**AlexNet**](https://github.com/abhijeetknayak/Deep-Learning/blob/master/CS-231N/Material/AlexNet.png) : <br>[[Conv] - [MaxPool] - [Normalization]] * 2 - [Conv] - [Conv] - [Conv] - [Pool] - [FC] * 3] <br>
 **Conv1** : 96 11 * 11 filters, with stride = 4 ----> Output Dimension : __55 * 55 * 96__; Learnable parameters : __11 * 11 * 3 * 96__ <br>
 **MaxPool1** : 3 * 3 filters, with stride = 2   ----> Output Dimension : __27 * 27 * 96__; Learnable parameters : __0__ <br>
 **Norm1** : Output Dimension : __27 * 27 * 96__ <br><br>
@@ -191,7 +191,7 @@ VGG proposed the use of 3 * 3 filter for all convolutions, and introduced many m
     The inception module performs **different sets of convolution and pooling**, but still maintains the same dimensions. The depth after each convolution varies.<br>
     At the end, all the outputs from the different sets of **filters are aggregated** to get a much larger depth. As a result, the depth can only increase.
     This presents some computational bottleneck if the depth at the input is high. <br>
-    To prevent this, a 1 * 1 convolution is used on the input(with a smaller number of filters) so as to reduce the number of computations. This is also applied after pooling to      further reduce the depth of the pooling layer. <br>
+    To prevent this, a 1 * 1 convolution is used on the input(with a smaller number of filters) so as to reduce the number of computations. This is also applied after pooling to      further reduce the depth of the pooling layer. This dimension reduction layers are called [**BottleNeck Layers**](https://github.com/abhijeetknayak/Deep-Learning/blob/master/CS-231N/Material/Dimension-Reduction-Inception.png)<br>
     As a result of these operations, some information(feature maps) may be lost, but this dimension reduction helps in learning the most relevant features, thereby reducing         redundancies in the model. <br>
     Auxiliary Outputs from lower layers - To keep the gradient flowing even in the lower layers(prevents Vanishing Gradient Problem). These are fed to FC Layers <br>
     No Fully Connected Layers at the end. <br>
@@ -199,14 +199,14 @@ VGG proposed the use of 3 * 3 filter for all convolutions, and introduced many m
 Training a Deep Network is an optimization problem. Optimizing a deeper network is much harder than optimizing a shallow network.<br>
 The intuition to building a resnet architecture is that the deep network should perform at least as good as the shallow network. If the ouput from the shallow layers is just mapped as an input to the top layers, the model should be able to learn weights for the top layers such that the deep model performs at least as good as the shallow layers. This mapping is termed as the **residual mapping**. The model can also learn zero weights for the top layers so that all the activations are zero, and the input from the shallow layer is just passed to the output. <br>
 **BottleNeck Layer(1 * 1 Convolution)** can be used in ResNets as well to reduce the number of computations. <br>
-Hyperparameters used are shown [here]() <br>
+Hyperparameters used are shown [here](https://github.com/abhijeetknayak/Deep-Learning/blob/master/CS-231N/Material/ResNet-Training-Hyperparameters.png) <br>
 **Other Architectures** :
-  1. [**Network in Network**]() - Each convolution layer uses an mlpconv layer
-  2. [**ResNeXt**]() - The width of residual blocks is increased(32 paths in one block)
-  3. [**ResNet with Stochastic Depth**]() - Some residual blocks are randomly dropped during train time. Identical to Dropout
-  4. [**DenseNet**]() - Dense layers, where outputs are concatenated
-  5. [**FractalNet**]() - Arranged as fractals. Gets rid of residual connections
-  6. [**SqueezeNet**]() - "Fire" modules with "Squeeze" Conv layers(1 * 1 Conv) and "Expand" Layers(1 * 1, 3 * 3 and so on). Increases efficiency
+  1. [**Network in Network**](https://github.com/abhijeetknayak/Deep-Learning/blob/master/CS-231N/Material/Network-in-Network.png) - Each convolution layer uses an mlpconv layer
+  2. [**ResNeXt**](https://github.com/abhijeetknayak/Deep-Learning/blob/master/CS-231N/Material/ResNeXt.png) - The width of residual blocks is increased(32 paths in one block)
+  3. [**ResNet with Stochastic Depth**](https://github.com/abhijeetknayak/Deep-Learning/blob/master/CS-231N/Material/ResNet-Dropout.png) - Some residual blocks are randomly dropped during train time. Identical to Dropout
+  4. [**DenseNet**](https://github.com/abhijeetknayak/Deep-Learning/blob/master/CS-231N/Material/Dense-Net.png) - Dense layers, where outputs are concatenated
+  5. [**FractalNet**](https://github.com/abhijeetknayak/Deep-Learning/blob/master/CS-231N/Material/Fractal-Net.png) - Arranged as fractals. Gets rid of residual connections
+  6. [**SqueezeNet**](https://github.com/abhijeetknayak/Deep-Learning/blob/master/CS-231N/Material/SqueezeNet.png) - "Fire" modules with "Squeeze" Conv layers(1 * 1 Conv) and "Expand" Layers(1 * 1, 3 * 3 and so on). Increases efficiency
 
 
 
