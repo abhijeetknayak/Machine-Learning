@@ -153,9 +153,10 @@ While using PyTorch, the graph is created multiple times(created within the loop
      Then, just add layers on your model. This is very useful in case your model is sequential. But, if you have multiple inputs from different sources(or multiple outputs),          using the Sequential API is not very flexible.
   4. **Keras Functional API** : 
   
-**Using PyTorch** : 
-
-
+**Using PyTorch** : The computational graph is always created inside the loop(dynamic graph)<br>
+  1. **Using PyTorch with low level APIs** : Using autograd function to compute gradients on relevant tensors. Set requires_grad to True if gradient has to be computed.
+  2. **Using the PyTorch Module API** : Inherit properties of the nn.module(use super().init() function for that), and initialize all layers in the model. Additionally create a __forward()__ function to call all layers with required input tensors.
+  3. **Using PyTorch with the Sequential API** : Using nn.Sequential to stack sequential layers on top of each other to create a model. If a user defined layer is required to be used, create a new class for the layer(point 2) and use the class instead. This way of using PyTorch is user-friendly, but it isnt very flexible, if the model is not sequential.
 
 **Lecture 9 : CNN Architectures**
 
@@ -207,6 +208,10 @@ Hyperparameters used are shown [here](https://github.com/abhijeetknayak/Deep-Lea
   4. [**DenseNet**](https://github.com/abhijeetknayak/Deep-Learning/blob/master/CS-231N/Material/Dense-Net.png) - Dense layers, where outputs are concatenated
   5. [**FractalNet**](https://github.com/abhijeetknayak/Deep-Learning/blob/master/CS-231N/Material/Fractal-Net.png) - Arranged as fractals. Gets rid of residual connections
   6. [**SqueezeNet**](https://github.com/abhijeetknayak/Deep-Learning/blob/master/CS-231N/Material/SqueezeNet.png) - "Fire" modules with "Squeeze" Conv layers(1 * 1 Conv) and "Expand" Layers(1 * 1, 3 * 3 and so on). Increases efficiency
+
+**Lecture 10 : [Recurrent Neural Networks]()** <br>
+All networks until now had a single input and generated an output. Recurrent Networks are used in applications where the number of inputs and outputs varies, depending on the intended application. You could have 'one-to-many', 'many-to-one', or 'many-to-many' recurrent networks.<br>
+Image Captioning, Sentiment Classification, Video Analytics, Text translation, etc are applications where RNNs are used. <br>
 
 
 
