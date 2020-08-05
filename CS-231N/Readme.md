@@ -209,6 +209,10 @@ Hyperparameters used are shown [here](https://github.com/abhijeetknayak/Deep-Lea
   5. [**FractalNet**](https://github.com/abhijeetknayak/Deep-Learning/blob/master/CS-231N/Material/Fractal-Net.png) - Arranged as fractals. Gets rid of residual connections
   6. [**SqueezeNet**](https://github.com/abhijeetknayak/Deep-Learning/blob/master/CS-231N/Material/SqueezeNet.png) - "Fire" modules with "Squeeze" Conv layers(1 * 1 Conv) and "Expand" Layers(1 * 1, 3 * 3 and so on). Increases efficiency
 
+**Lecture 10 : [Recurrent Neural Networks]()** <br>
+All networks until now had a single input and generated an output. Recurrent Networks are used in applications where the number of inputs and outputs varies, depending on the intended application. You could have 'one-to-many', 'many-to-one', or 'many-to-many' recurrent networks.<br>
+Image Captioning, Sentiment Classification, Video Analytics, Text translation, etc are applications where RNNs are used. <br>
+
 
 
 
