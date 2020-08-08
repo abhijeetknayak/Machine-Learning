@@ -854,11 +854,26 @@ def spatial_groupnorm_forward(x, gamma, beta, G, gn_param):
     N, C, H, W = x.shape
     assert(C % G == 0)
     
-    k = np.split(x, G, axis=1)
-    print(k[0].shape, k[1].shape)
+    x_inter = x.reshape(N * G, C // G, H, W).transpose(0, 2, 3, 1)
     
+    x_inter = x_inter.reshape(N * G * H * W, -1)
+    
+    mean = np.mean(x_inter, axis=0)
+    var = np.var(x_inter, axis=0) + eps
+    
+    x_inter = (x_inter - mean) / np.sqrt(var)
+    
+    # Need to scale and shift by gamma and beta
+    x_inter = x_inter.reshape(N, H, W, C).transpose(0, 3, 1, 2)
+    
+    gamma = gamma.reshape(1, C, 1, 1)  # If its not already in this shape
+    beta = beta.reshape(1, C, 1, 1)
+    
+#     gamma = gamma[np.newaxis, :, np.newaxis, np.newaxis]
+#     beta = beta[np.newaxis, :, np.newaxis, np.newaxis]
 
-    pass
+    out = x_inter * gamma + beta
+    cache = (x, x_inter, mean, var, gamma, G)
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ###########################################################################
@@ -887,8 +902,24 @@ def spatial_groupnorm_backward(dout, cache):
     # This will be extremely similar to the layer norm implementation.        #
     ###########################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-    pass
+    x, x_inter, mean, var, gamma, G = cache
+    N, C, H, W = x.shape
+    dbeta = np.sum(dout, (0, 2, 3), keepdims=True)
+    
+    dgamma = np.sum(x_inter * dout, (0, 2, 3), keepdims=True)
+    
+    dout_inter = gamma * dout
+    dout_inter = dout_inter.reshape(N * G, C // G, H, W).transpose(0, 2, 3, 1)
+    dout_inter = dout_inter.reshape(N * G * H * W, -1)
+    x_inter = x_inter.transpose(0, 2, 3, 1).reshape(N * G * H * W, C // G)
+    print(x_inter.shape, dout_inter.shape, mean.shape)
+    
+    n = x_inter.shape[0]
+    
+    dx = n * dout_inter - np.sum(dout_inter, axis=0) - x_inter * np.sum(dout_inter * x_inter, axis=0)
+    dx /= (np.sqrt(var) * n)
+    
+    dx = dx.reshape(N, H, W, C).transpose(0, 3, 1, 2)    
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ###########################################################################
