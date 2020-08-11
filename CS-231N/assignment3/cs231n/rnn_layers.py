@@ -121,8 +121,14 @@ def rnn_forward(x, h0, Wx, Wh, b):
     h = np.zeros((N, T, H))
     
     for t in range(T):
-        h0, cache['t'] = rnn_step_forward(x[:, t, :], h0, Wx, Wh, b)
+        h0, cache[t] = rnn_step_forward(x[:, t, :], h0, Wx, Wh, b)
         h[:, t, :] = h0
+        
+    # Store other parameters needed 
+    cache['x'] = x
+    cache['Wx'] = Wx
+    cache['Wh'] = Wh
+    cache['b'] = b
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ##############################################################################
@@ -157,8 +163,21 @@ def rnn_backward(dh, cache):
     # defined above. You can use a for loop to help compute the backward pass.   #
     ##############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-    pass
+    N, T, H = dh.shape
+    x, Wx, Wh, b = cache['x'], cache['Wx'], cache['Wh'], cache['b']
+    dx = np.zeros(x.shape)
+    dWx = np.zeros(Wx.shape)
+    dWh = np.zeros(Wh.shape)
+    db = np.zeros(b.shape)
+    dh_temp = np.zeros((N, H))
+    
+    for t in reversed(range(T)):
+        dx[:, t, :], dh_temp, dWx_temp, dWh_temp, db_temp = rnn_step_backward(dh[:, t, :] + dh_temp, cache[t])
+        dWx += dWx_temp
+        dWh += dWh_temp
+        db += db_temp
+    
+    dh0 = dh_temp
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ##############################################################################
@@ -175,7 +194,7 @@ def word_embedding_forward(x, W):
 
     Inputs:
     - x: Integer array of shape (N, T) giving indices of words. Each element idx
-      of x muxt be in the range 0 <= idx < V.
+      of x must be in the range 0 <= idx < V.
     - W: Weight matrix of shape (V, D) giving word vectors for all words.
 
     Returns a tuple of:
@@ -189,8 +208,14 @@ def word_embedding_forward(x, W):
     # HINT: This can be done in one line using NumPy's array indexing.           #
     ##############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-    pass
+#     N, T = x.shape
+#     V, D = W.shape
+    
+#     out = np.zeros((N, T, D))    
+#     out = W[x[np.arange(N), :], :]
+    
+    out = W[x]  # Simplified version 
+    cache = (x, W)
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ##############################################################################
@@ -222,8 +247,11 @@ def word_embedding_backward(dout, cache):
     # HINT: Look up the function np.add.at                                       #
     ##############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-    pass
+    x, W = cache
+    dW = np.zeros(W.shape)
+    
+    # Add into dW at (N, T) whatever value of dout(dout[N, T, :]) -> This would be a D-Dimensional Vector
+    np.add.at(dW, x, dout)
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ##############################################################################
@@ -274,9 +302,23 @@ def lstm_step_forward(x, prev_h, prev_c, Wx, Wh, b):
     # You may want to use the numerically stable sigmoid implementation above.  #
     #############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-    pass
-
+    D, H_ = Wx.shape
+    H = H_ // 4
+    a = np.dot(x, Wx) + np.dot(prev_h, Wh) + b  # [N * 4H] for four different gates
+    
+    a[:, 0:3 * H] = sigmoid(a[:, 0:3*H])
+    a[:, 3 * H:] = np.tanh(a[:, 3 * H:]) # Four different gates now available
+    
+    i, f, o, g = a[:, 0:H], a[:, H:2 * H], a[:, 2 * H:3 * H], a[:, 3 * H:]
+    
+    # next_c includes some part of the prev_c and some new input
+    # The 'f' gate tells us how much of the prev_c should be excluded.
+    # The 'i' gate tells us how much of the 'g' gate should be stored into the current cell state
+    next_c = prev_c * f + i * g  # Element Wise product
+    next_h = np.tanh(next_c) * o # Output gate tells us how much the cell should send as output
+    
+    cache = (x, prev_h, prev_c, next_h, next_c, Wx, Wh, a)  # Store parameters for backprop
+    
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ##############################################################################
     #                               END OF YOUR CODE                             #
@@ -310,9 +352,35 @@ def lstm_step_backward(dnext_h, dnext_c, cache):
     # the output value from the nonlinearity.                                   #
     #############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-    pass
-
+    x, prev_h, prev_c, next_h, next_c, Wx, Wh, a = cache
+    N, H = dnext_h.shape
+    i, f, o, g = a[:, 0:H], a[:, H:2*H], a[:, 2*H:3*H], a[:, 3*H:]
+    
+    doGate = dnext_h * np.tanh(next_c)
+    
+    # dnext_c is a sum of two gradient flows!
+    dnext_c = dnext_c + dnext_h * o / (np.cosh(next_c) ** 2)
+    
+    # Traversing throught the gates
+    diGate = dnext_c * g
+    dgGate = dnext_c * i
+    dfGate = prev_c * dnext_c   
+    dprev_c = dnext_c * f
+    
+    da = np.hstack((diGate, dfGate, doGate, dgGate))
+    
+    dasigmoid = a[:, 0:3 * H] * (1 - a[:, 0:3 * H])  # [dSigmoid = Sigmoid(x) * (1 - Sigmoid(x))]
+    daTanh = 1 - a[:, 3 * H:] ** 2  # [dTanh = 1 - Tanh(x) ** 2]
+    
+    # Final gradient to calculate weight and input gradients
+    dz = np.hstack((dasigmoid, daTanh)) * da
+    
+    db = np.sum(dz, axis=0)
+    dx = np.dot(dz, Wx.T)
+    dWx = np.dot(x.T, dz)
+    dWh = np.dot(prev_h.T, dz)
+    dprev_h = np.dot(dz, Wh.T)
+    
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ##############################################################################
     #                               END OF YOUR CODE                             #
@@ -349,8 +417,15 @@ def lstm_forward(x, h0, Wx, Wh, b):
     # You should use the lstm_step_forward function that you just defined.      #
     #############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-    pass
+    N, T, D = x.shape
+    _, H = h0.shape
+    h = np.zeros((N, T, H))
+    prev_c = np.zeros((N, H))
+    cache = dict()
+    
+    for t in range(T):
+        h[:, t, :], prev_c, cache[t] = lstm_step_forward(x[:, t, :], h0, prev_c, Wx, Wh, b)
+        h0 = h[:, t, :]
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ##############################################################################
@@ -381,8 +456,22 @@ def lstm_backward(dh, cache):
     # You should use the lstm_step_backward function that you just defined.     #
     #############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-
-    pass
+    N, T, H = dh.shape
+    
+    # Last LSTM Cell
+    dc = np.zeros((N, H))
+    dx_temp, dprev_h, dc, dWx, dWh, db = lstm_step_backward(dh[:, T-1, :], dc, cache[T-1])
+    _, D = dx_temp.shape
+    dx = np.zeros((N, T, D))
+    dx[:, T-1, :] = dx_temp
+    
+    for t in reversed(range(T - 1)):
+        dx[:, t, :], dprev_h, dc, dWx_temp, dWh_temp, db_temp = lstm_step_backward(dh[:, t, :] + dprev_h, dc, cache[t])
+        dWx += dWx_temp
+        dWh += dWh_temp
+        db += db_temp
+        
+    dh0 = dprev_h  # First Hidden layer
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     ##############################################################################
