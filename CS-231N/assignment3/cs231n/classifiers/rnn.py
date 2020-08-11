@@ -241,9 +241,14 @@ class CaptioningRNN(object):
         inp = np.ones((N, W)) * W_embed[self._start]
         hnext = h0
         
+        # Initialize prev_c for use by lstm
+        prev_c = np.zeros(hnext.shape)
+        
         for t in range(max_length):
             if self.cell_type is 'rnn':
                 hnext, _ = rnn_step_forward(inp, hnext, Wx, Wh, b)
+            elif self.cell_type is 'lstm':                
+                hnext, prev_c, _ = lstm_step_forward(inp, hnext, prev_c, Wx, Wh, b)
                 
             out = np.dot(hnext, W_vocab) + b_vocab
             inp = np.argmax(out, axis=1)
