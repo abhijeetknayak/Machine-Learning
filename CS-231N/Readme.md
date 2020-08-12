@@ -212,7 +212,7 @@ Hyperparameters used are shown [here](https://github.com/abhijeetknayak/Deep-Lea
 **Lecture 10 : [Recurrent Neural Networks](https://github.com/abhijeetknayak/Deep-Learning/blob/master/CS-231N/Material/RNN-State.png)** <br>
 All networks until now had a single input and generated an output. Recurrent Networks are used in applications where the number of inputs and outputs varies, depending on the intended application. You could have 'one-to-many', 'many-to-one', or 'many-to-many' recurrent networks.<br>
 Image Captioning, Sentiment Classification, Video Analytics, Text translation, etc are applications where RNNs are used. <br>
-RNN forward Step :    __h<sub>t</sub> = tanh(x.Wx + h<sub>t-1</sub>.Wh + b)__
+RNN forward Step :    __h<sub>t</sub> = tanh(x.Wx + h<sub>t-1</sub>.Wh + b)__ <br>
 RNNs have a acertain number of hidden layers, which correspond to a particular tinme step. These are temporal networks(sequences) <br>
 All the 'layers' are provided the same weight and bias parameters. <br>
 __RNNs have a problem though__ : If the number of layers is very high(or hidden dimension is high), during backprop, the weight matrix is continuously multiplied over and over again to produce the downstream gradient. Unless values in W is almost 1, this would always lead to exploding or vanishing gradients, and the model wouldn't learn.<br>
@@ -226,10 +226,14 @@ The gates are as follows:
   2. **g Gate** - Determines what inputs should be stored in the cell state. Tanh activation(-1, 1) <br>
   3. **f gate** - Forget gate. Determines how much of the previous cell state should be erased. Sigmoid Activation(0, 1) <br>
   4. **o Gate** - Output gate. Determines how much of the current cell state should be sent as output. Sigmoid Activation(0, 1)<br>
+
+The forward pass of an [LSTM cell](https://github.com/abhijeetknayak/Deep-Learning/blob/master/CS-231N/Material/LSTM-Diagram.png) : <br>
+  ------>    __C<sub>t</sub> = C<sub>t-1</sub> * f + i * g__ -----> Element wise multiplications<br>
+  ------>    __h<sub>t</sub> = o * tanh(C<sub>t</sub>)__ ----> Again, Element wise multiplication<br>
   
-  The forward pass of an LSTM cell : <br>
-            __C<sub>t</sub> = C<sub>t-1</sub> * f + i * g__ -----> Element wise multiplications<br>
-            __h<sub>t</sub> = o * tanh(C<sub>t</sub>)__ ----> Again, Element wise multiplication<br>
+  The advantage of this architecture is that, during backpropagation an element wise multiplication with the gates determines the downstream gradients. <br>
+  As all of these gates are results of activations functions that output values in a small range, there is no way the gradients can explode. <br>
+  This architecture helps in provinding a gradient flow from the last cell to the first, which elinminates the vanishing gradients problem too. <br>
   
 
 
