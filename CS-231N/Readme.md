@@ -249,6 +249,20 @@ The forward pass of an [LSTM cell](https://github.com/abhijeetknayak/Deep-Learni
   4. **Instance Segmentation** : Instances of similar objects are seperated. [Mask R-CNN]() additionally predicts a mask for the object along with the class and the bounding box dimensions.<br>
   
 **Lecture 12 : Visualizing network outputs** <br>
+  1. Weights of the first layer of a CNN can be visualized. As the inner product is maximized when the image(or a part of it) matches the weight filters, visualizing the weights can give us a rough idea of what the filter is looking for in the image. <br>
+  2. Intermediate layer weights can also be visualized this way, but they're not very insightful. As these weights have a different number of channels, we would have to visualize them as sets of grayscale images.<br>
+  3. Fully Connected layer outputs can also be visualized. Nearest Neighbor visualizations can be used here. Nearest neighbor approach in pixel space may be ambiguous. Computing nearest neighbors in feature space results in images that have similar features. <br>
+  4. FC Layer - Dimensionality Reduction using t-SNE(T Distributed Stochastic Neighbor embeddings). Using the n-Dimensional output of the Fc layer, t-SNE reduces it to a dimensional value(a coordinate). When these coordinates are visualized, clusters of images are created according to their class. <br>
+  5. Visualizing activation maps can help us understand which part of the image causes a certain kind of activation in a particular layer of the CNN. <br>
+  6. Maximally Activating patches : For any channel in an activation volume, find image patches that cause maximum activations in that channel. If an activation from a higher layer is used, it has a larger receptive field. The image patch generated would be bigger in this case. <br>
+  7. Occlusion Experiments : Occlude parts of images, and then create a probability distribution over the range of the entire image. Parts of the image which are important for the image to be correctly classified will have low probabilities in the new probability distribution.<br>
+  8. Saliency maps : Tells us which parts of the image are under consideration to make a correct classification decision. <br>
+  9. Guided backpropagation : <br>
+  10. Class Visualization with Gradient ascent : Start with a zero image and find image gradient that maximizes a class score. Then, perform a gradient ascent so as to maximize the score. This generates a new image that maximizes the class score. The regularization makes the image look relatively natural. Other implicit regularizers used are gaussian blurring, image jitter(shift the whole image by some pixels), etc. <br>
+  11. Fooling Images : Maximizing the class score for a particular target class and performing gradient ascent so as to generate an image which is classified as the target class. <br> 
+  
+  
+  
 
   
 
