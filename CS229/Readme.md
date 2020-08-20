@@ -20,7 +20,7 @@
 * In cases where you training data has features which are not distributed linearly, training a linear regression model can lead to underfitting your training data.<br>
 * Instead of linear regression, locally weighted regression helps weighting the losses from training examples that are near the input for which a prediction has to be made. <br>
 * The loss function is defined as : <br>
-    <img src="https://i.upmath.me/svg/J(%5Ctheta)%20%3D%20%5Csum_%7Bi%3D1%7D%5E%7Bn%7D%7Bw%5Ei(y%5Ep%20-%20y%5Ei)%7D%5C%20where%5C%20y%5Ep%20%3D%20h_%5Ctheta(x%5Ei)%3B%20w%5Ei%20%3Dweight%5C%20for%5C%20x%5Ei%20" alt="J(\theta) = \sum_{i=1}^{n}{w^i(y^p - y^i)}\ where\ y^p = h_\theta(x^i); w^i =weight\ for\ x^i " />
+    <img src="https://i.upmath.me/svg/J(%5Ctheta)%20%3D%20%5Csum_%7Bi%3D1%7D%5E%7Bn%7D%7Bw%5Ei(y%5Ep%20-%20y%5Ei)%7D%5C%20where%5C%20y%5Ep%20%3D%20h_%5Ctheta(x%5Ei)%3B%20w%5Ei%20%3Dweight%5C%20for%5C%20x%5Ei%20" alt="J(\theta) = \sum_{i=1}^{n}{w^i(y^p - y^i)}\ where\ y^p = h_\theta(x^i); w^i =weight\ for\ x^i " /><br>
     <img src="https://i.upmath.me/svg/w%5Ei%3D%5Cexp%20(-%7B(x%5Ei%20-%20x)%5E2%20%5Cover%202%5Ctau%5E2%7D)%5C%20where%5C%20x%20-%20input%3B%20%5Ctau%20-%20bandwidth" alt="w^i=\exp (-{(x^i - x)^2 \over 2\tau^2})\ where\ x - input; \tau - bandwidth" />
 * As new parameters are defined for every value of the input x for which we want to predict an output, all the training data needs to be stored at all points of time. This is why this is termed as a **Non-Parametric Learning Algorithm** <br>
 
