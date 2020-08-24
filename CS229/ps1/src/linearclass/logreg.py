@@ -92,6 +92,7 @@ class LogisticRegression:
             if self.verbose:
                 print("Iteration {}; Change in theta : {}".format(idx, diff))
 
+            # Norm should be less than the threshold. If it is, end training
             if diff < self.eps:
                 break
         # *** END CODE HERE ***
