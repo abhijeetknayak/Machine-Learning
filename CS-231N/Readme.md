@@ -260,6 +260,9 @@ The forward pass of an [LSTM cell](https://github.com/abhijeetknayak/Deep-Learni
   9. Guided backpropagation : <br>
   10. Class Visualization with Gradient ascent : Start with a zero image and find image gradient that maximizes a class score. Then, perform a gradient ascent so as to maximize the score. This generates a new image that maximizes the class score. The regularization makes the image look relatively natural. Other implicit regularizers used are gaussian blurring, image jitter(shift the whole image by some pixels), etc. <br>
   11. Fooling Images : Maximizing the class score for a particular target class and performing gradient ascent so as to generate an image which is classified as the target class. <br> 
+**Lecture 13 : Generative Models** <br>
+ Edit!
+
   
   
   
