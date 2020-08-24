@@ -1,7 +1,5 @@
 import numpy as np
 import util
-from sklearn.linear_model import LogisticRegression
-
 
 def main(train_path, valid_path, save_path):
     """Problem: Logistic regression with Newton's Method.
@@ -24,15 +22,17 @@ def main(train_path, valid_path, save_path):
 
     # Fit model to training data
     model.fit(x_train, y_train)
-
-    util.plot(x_train, y_train, model.theta, './', )
+    util.plot(x_train, y_train, model.theta, 'train_viz', )
 
     # Predict values for Validation Set
-    # model.predict(x_val)
+    y_pred = model.predict(x_val)
 
-    # Train a logistic regression classifier
-    # Plot decision boundary on top of validation set set
     # Use np.savetxt to save predictions on eval set to save_path
+    np.savetxt(save_path, y_pred)
+
+    # Plot decision boundary on top of validation set set
+    util.plot(x_val, y_val, model.theta, save_path[:-4])
+
     # *** END CODE HERE ***
 
 
@@ -107,6 +107,7 @@ class LogisticRegression:
             Outputs of shape (n_examples,).
         """
         # *** START CODE HERE ***
+        return x.dot(self.theta)
         # *** END CODE HERE ***
 
 if __name__ == '__main__':
