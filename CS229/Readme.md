@@ -31,3 +31,13 @@
 * The resulting cost function(minimization) is similar to the least squares minimization in linear regression, which tells us that the least squares minimization was a natural way to optimize the parameters of the model.
 
 **Logistic Regression** : For classification problems <br>
+
+**Lecture 4 : Perceptron + Exponential Family + GLMs + Multiclass Regression**<br>
+* Perceptron : This is exactly the same as logistic regression. The only difference here is that h(x) used is different. <br>
+For a perceptron, scores are fed to a function, which is the hard version of the sigmoid.
+**g(z) = 1  if z >= 0; 0 if z < 0**  The updation of parameters remains exactly the same. <br>
+The intuition here is that for every example which is classified correctly, the loss values are set to zero, leading to zero update on the parameters. Whenever an exmaple is classified wrongly, the parameters are updated by adding a small portion of the input to the parameter. As the parameters inch closer to the input, the dot product maximizes and hence, leads to proper classification. <br>
+* Exponential Family : <br>
+A distribution is said to be derived from the exponential family if the PDF of the distribution is of the form <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.upmath.me/svg/p(y%3B%5Ceta)%20%3D%20b(y)%5Cexp(%5Ceta%5ETT(y)%20-%20a(%5Ceta))" alt="p(y;\eta) = b(y)\exp(\eta^TT(y) - a(\eta))" /> <br>
+
