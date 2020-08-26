@@ -40,4 +40,5 @@ The intuition here is that for every example which is classified correctly, the 
 * Exponential Family : <br>
 A distribution is said to be derived from the exponential family if the PDF of the distribution is of the form <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.upmath.me/svg/p(y%3B%5Ceta)%20%3D%20b(y)%5Cexp(%5Ceta%5ETT(y)%20-%20a(%5Ceta))" alt="p(y;\eta) = b(y)\exp(\eta^TT(y) - a(\eta))" /> <br>
+Here, <img src="https://i.upmath.me/svg/y%20-%20data%3B%20%5Ceta%20-%20parameter%3B%20b(y)%20-%20base%5C%20measure%3B%20T(y)%20-%20Sufficient%5C%20Statistic%3B%20a(%5Ceta)%20-%20log%5C%20partition" alt="y - data; \eta - parameter; b(y) - base\ measure; T(y) - Sufficient\ Statistic; a(\eta) - log\ partition" /> <br> 
 
