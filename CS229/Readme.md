@@ -33,12 +33,18 @@
 **Logistic Regression** : For classification problems <br>
 
 **Lecture 4 : Perceptron + Exponential Family + GLMs + Multiclass Regression**<br>
-* Perceptron : This is exactly the same as logistic regression. The only difference here is that h(x) used is different. <br>
+* **Perceptron** : This is exactly the same as logistic regression. The only difference here is that h(x) used is different. <br>
 For a perceptron, scores are fed to a function, which is the hard version of the sigmoid.
 **g(z) = 1  if z >= 0; 0 if z < 0**  The updation of parameters remains exactly the same. <br>
 The intuition here is that for every example which is classified correctly, the loss values are set to zero, leading to zero update on the parameters. Whenever an exmaple is classified wrongly, the parameters are updated by adding a small portion of the input to the parameter. As the parameters inch closer to the input, the dot product maximizes and hence, leads to proper classification. <br>
-* Exponential Family : <br>
+* **Exponential Family** : <br>
 A distribution is said to be derived from the exponential family if the PDF of the distribution is of the form <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.upmath.me/svg/p(y%3B%5Ceta)%20%3D%20b(y)%5Cexp(%5Ceta%5ETT(y)%20-%20a(%5Ceta))" alt="p(y;\eta) = b(y)\exp(\eta^TT(y) - a(\eta))" /> <br>
 Here, <img src="https://i.upmath.me/svg/y%20-%20data%3B%20%5Ceta%20-%20parameter%3B%20b(y)%20-%20base%5C%20measure%3B%20T(y)%20-%20Sufficient%5C%20Statistic%3B%20a(%5Ceta)%20-%20log%5C%20partition" alt="y - data; \eta - parameter; b(y) - base\ measure; T(y) - Sufficient\ Statistic; a(\eta) - log\ partition" /> <br> 
+Properties of exponential family : <br>
+  1. Maximum Likelihood estimate is Concave, Negative log likelihood is convex.
+  2. Expectation of data is the first differential of <img src="https://i.upmath.me/svg/a(%5Ceta)" alt="a(\eta)" />
+  3. Variance of the data is the second differential(Hessian) of <img src="https://i.upmath.me/svg/a(%5Ceta)" alt="a(\eta)" />
+* **Generalized Linear Model(GLM)** : <br>
+
 
