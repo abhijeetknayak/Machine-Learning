@@ -31,3 +31,30 @@
 * The resulting cost function(minimization) is similar to the least squares minimization in linear regression, which tells us that the least squares minimization was a natural way to optimize the parameters of the model.
 
 **Logistic Regression** : For classification problems <br>
+
+**Lecture 4 : Perceptron + Exponential Family + GLMs + Multiclass Regression**<br>
+* **Perceptron** : This is exactly the same as logistic regression. The only difference here is that h(x) used is different. <br>
+For a perceptron, scores are fed to a function, which is the hard version of the sigmoid.
+**g(z) = 1  if z >= 0; 0 if z < 0**  The updation of parameters remains exactly the same. <br>
+The intuition here is that for every example which is classified correctly, the loss values are set to zero, leading to zero update on the parameters. Whenever an exmaple is classified wrongly, the parameters are updated by adding a small portion of the input to the parameter. As the parameters inch closer to the input, the dot product maximizes and hence, leads to proper classification. <br>
+* **Exponential Family** : <br>
+A distribution is said to be derived from the exponential family if the PDF of the distribution is of the form <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.upmath.me/svg/p(y%3B%5Ceta)%20%3D%20b(y)%5Cexp(%5Ceta%5ETT(y)%20-%20a(%5Ceta))" alt="p(y;\eta) = b(y)\exp(\eta^TT(y) - a(\eta))" /> <br>
+Here, <img src="https://i.upmath.me/svg/y%20-%20data%3B%20%5Ceta%20-%20parameter%3B%20b(y)%20-%20base%5C%20measure%3B%20T(y)%20-%20Sufficient%5C%20Statistic%3B%20a(%5Ceta)%20-%20log%5C%20partition" alt="y - data; \eta - parameter; b(y) - base\ measure; T(y) - Sufficient\ Statistic; a(\eta) - log\ partition" /> <br> 
+Properties of exponential family : <br>
+  1. Maximum Likelihood estimate is Concave, Negative log likelihood is convex.
+  2. Expectation of data is the first differential of <img src="https://i.upmath.me/svg/a(%5Ceta)" alt="a(\eta)" />
+  3. Variance of the data is the second differential(Hessian) of <img src="https://i.upmath.me/svg/a(%5Ceta)" alt="a(\eta)" />
+* **Generalized Linear Model(GLM)** : <br>
+  1. In a generalized linear model, a distribution is chosen which defines the function through which the model scores(<img src="https://i.upmath.me/svg/%5Ctheta%5ETX" alt="\theta^TX" />) are passed through <br>
+  2. The distribution that is chosen depends on the application of the model. For instance, if binary values(0 or 1) are required as outputs, a **Bernoulli** distribution is chosen. If the output can be any number on the real line, a **Gaussian** Distribution is chosen. If positive integers are what you need, a **Poisson** Distribution is chosen<br>
+  3. The work flow here is : Pass input through the model to get scores(by use of theta). Pass these scores(<img src="https://i.upmath.me/svg/%5Ctheta%5ETX" alt="\theta^TX" />) through the chosen distribution, which helps you define your loss function <br>
+  4. The update rule, again, stays the same. The only thing which changes here is the value of <img src="https://i.upmath.me/svg/h_%5Ctheta(x)" alt="h_\theta(x)" />, which depends on the distribution that is chosen for the model<br>
+
+* **Softmax Regression** : <br>
+  1. Cross Entropy essentially is the **distance** between the target distribution and the normalized dstribution after the input is passed through the model<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.upmath.me/svg/Cross%5C%20Entropy(p%2C%20%5Chat%20p)%3D-%5Csum_%7By%5C%20%5Cepsilon%5C%20c%7Dp(y)log%5C%20%5Chat%20p(y)%20%3D%20-log(%5Chat%20p_c_i)" alt="Cross\ Entropy(p, \hat p)=-\sum_{y\ \epsilon\ c}p(y)log\ \hat p(y) = -log(\hat p_c_i)" />  where c<sub>i</sub> is the correct class for that example input. <br>
+
+
+
+
