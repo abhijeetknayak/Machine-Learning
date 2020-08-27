@@ -49,7 +49,12 @@ Properties of exponential family : <br>
   1. In a generalized linear model, a distribution is chosen which defines the function through which the model scores(<img src="https://i.upmath.me/svg/%5Ctheta%5ETX" alt="\theta^TX" />) are passed through <br>
   2. The distribution that is chosen depends on the application of the model. For instance, if binary values(0 or 1) are required as outputs, a **Bernoulli** distribution is chosen. If the output can be any number on the real line, a **Gaussian** Distribution is chosen. If positive integers are what you need, a **Poisson** Distribution is chosen<br>
   3. The work flow here is : Pass input through the model to get scores(by use of theta). Pass these scores(<img src="https://i.upmath.me/svg/%5Ctheta%5ETX" alt="\theta^TX" />) through the chosen distribution, which helps you define your loss function <br>
-  4. The update rule, again, stays the same. The only thing which changes here is the value of <img src="https://i.upmath.me/svg/h_%5Ctheta(x)" alt="h_\theta(x)" />, which depends on the distribution that is chosen for the model
+  4. The update rule, again, stays the same. The only thing which changes here is the value of <img src="https://i.upmath.me/svg/h_%5Ctheta(x)" alt="h_\theta(x)" />, which depends on the distribution that is chosen for the model<br>
+
+* **Softmax Regression** : <br>
+  1. Cross Entropy essentially is the **distance** between the target distribution and the normalized dstribution after the input is passed through the model<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.upmath.me/svg/Cross%5C%20Entropy(p%2C%20%5Chat%20p)%3D-%5Csum_%7By%5C%20%5Cepsilon%5C%20c%7Dp(y)log%5C%20%5Chat%20p(y)%20%3D%20-log(%5Chat%20p_c_i)" alt="Cross\ Entropy(p, \hat p)=-\sum_{y\ \epsilon\ c}p(y)log\ \hat p(y) = -log(\hat p_c_i)" />  where c<sub>i</sub> is the correct class for that example input. <br>
+
 
 
 
