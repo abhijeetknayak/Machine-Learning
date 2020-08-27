@@ -46,5 +46,10 @@ Properties of exponential family : <br>
   2. Expectation of data is the first differential of <img src="https://i.upmath.me/svg/a(%5Ceta)" alt="a(\eta)" />
   3. Variance of the data is the second differential(Hessian) of <img src="https://i.upmath.me/svg/a(%5Ceta)" alt="a(\eta)" />
 * **Generalized Linear Model(GLM)** : <br>
+  1. In a generalized linear model, a distribution is chosen which defines the function through which the model scores(<img src="https://i.upmath.me/svg/%5Ctheta%5ETX" alt="\theta^TX" />) are passed through <br>
+  2. The distribution that is chosen depends on the application of the model. For instance, if binary values(0 or 1) are required as outputs, a **Bernoulli** distribution is chosen. If the output can be any number on the real line, a **Gaussian** Distribution is chosen. If positive integers are what you need, a **Poisson** Distribution is chosen<br>
+  3. The work flow here is : Pass input through the model to get scores(by use of theta). Pass these scores(<img src="https://i.upmath.me/svg/%5Ctheta%5ETX" alt="\theta^TX" />) through the chosen distribution, which helps you define your loss function <br>
+  4. The update rule, again, stays the same. The only thing which changes here is the value of <img src="https://i.upmath.me/svg/h_%5Ctheta(x)" alt="h_\theta(x)" />, which depends on the distribution that is chosen for the model
+
 
 
