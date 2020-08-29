@@ -36,4 +36,5 @@ Instance normalization
 
 Auto encoding Variational Bayes
 
-Unsupervised representation learning with deep convolutional Generative Adversarial Networks
+Unsupervised representation learning with deep convolutional Generative Adversarial Networks : Radford
+LSGAN, CycleGAN, BEGAN, 

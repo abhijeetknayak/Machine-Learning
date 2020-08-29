@@ -115,8 +115,10 @@ Saliency maps : Which pixels matter while classifying
 Performing Gradient Ascent to generate an image 
 
 Feature inversion
-  
 
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Boltzmann Machine, Markov Chains, GSN?,    
 
 
 
