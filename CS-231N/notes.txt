@@ -1,0 +1,127 @@
+tf.data - to load data
+tf.keras.Model
+tf.keras.Sequential
+tf.heras.datasets - Well known datasets already available here
+
+TF - (N * H * W * C)
+
+Basics:
+
+tf.constant()  ----> to create a constant tensor
+tf.pad(tensor, padding) ----> padding is also a tensor
+
+Layers:
+tf.nn.-----
+tf.matmul ---> for Fully Connected layer
+tf.keras.layers ---> High level API
+1. always initialize the class using super(inheritance from tf.keras.Model). Define layers as variables(self.---)
+
+Scaling:
+tf.initializers.VarianceScaling(scale)
+
+Gradient:
+tf.GradientTape
+
+Loss Functions:
+
+tf.nn.sparse_softmax_cross_entropy_with_logits
+tf.reduce_mean	
+
+
+Barebones Tensorflow - Creating the computational graph and then using Gradient Tape
+Keras Model SubClassing API
+Keras Sequential API
+Keras Functional API - More flexible, for multiple input and output models
+
+
+
+Torch: (N * C * H * W)
+torch.cuda.is_available() ---> Check GPU availability
+device = torch.device('cuda') ----> and then set device in all torch commands if you want them to run on GPU 
+requires_grad = True, if autograd should find the gradient(x(requires_grad = True) ----> then x.grad will be a tensor after backprop)
+
+numpy.reshape = torch.view()
+torch.mm - matrix multiplication
+
+Barebones PyTorch : Use the import statement below
+import torch.nn.functional as F ---> Using layers from nn module
+loss = F.cross_entropy()
+
+torch.to(device=device, dtype=dtype) change a tensor to run on a 'device' and to a certain data type
+
+
+pyTorch Module API
+torch.optim
+optimizer.step() ----> after loss.backward()
+Make sure all the parameters are on one device(GPU or cpu)
+nn.layers ---->
+nn.
+
+
+
+
+
+Managing graident flow : Resnet helps in that, by providing a gradient highway. Better gradient flow
+
+RNN : Same function fw and same weights are used every time step (t)
+
+Character level language model - Why sample characters? and not just use softmax values
+Truncated Backprop through time
+Mulitlayer RNNs - Maybe these do better?
+
+
+RNNs have an inherent problem : vanishing and Exploding gradient because during backprop, W is multiplied iteratively(W > 1 or W < 1)
+What you can do about this : Gradient clipping? Set a threshold
+Or change Architecture : This is where LSTMs and GRUs come in!
+
+LSTM:
+Forget gate - How much of the previous cell state should we discard/forget(sigmoid)
+Input gate - Tells us how much we want to input into the cell(sigmoid)
+Output Gate - How much we want to send out of the cell(sigmoid)
+G Gate - How much we want to write into the cell(tanh)
+
+during backward pass : Only an element wise multiplication by f(backprop using cell state) and f varies in each time step. And its always between 0 and 1.
+Moreover, it passes through only one tanh(from hidden state of last cell)
+Therefore, the backward pass has a gradient highway.
+And because gradients on C are maintained, the gradients on W would also be maintained(multiplication by local grads)
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+semantic Segmentation - Using a sliding window approach --> Get a crop from an image, pass the crop a an input to the CNN and classify each center pixel that way.
+This is very inefficient
+
+next idea : Full Convolutional Network, No FC layers
+You would want the output to be of the same size, but this again is computation intensive!
+
+A better idea would be to downsample and then upsample to the same image size, so as to reduce the number of computations.
+
+Object detection Ideas :
+
+Feeding Image patches to CNN and extracting an output - Inefficient
+Using Region Proposals to get areas where most objects are likely to occur
+
+ROI Pooling layer?
+
+
+Visualizing----------------------------------------------------------------------------------------------------------------------------------------------------------
+First Conv Layer - Visualize weights - Should be representative of what the first layer is learning
+Deeper layers - Not actual images. Sets of gray scale images, which are scaled to intensity values.
+Fully connected layers - Visualize Nearest neighbors of feature space of test images. These should match
+You could also use dimensionality reduction(t-SNE) from k-space(4096) to 2 dimensions
+
+Intermediate layers- you could also visualize activations instead
+Maximally Activating patches 
+
+Saliency maps : Which pixels matter while classifying
+Performing Gradient Ascent to generate an image 
+
+Feature inversion
+  
+
+
+
+
+
+
+
+
+

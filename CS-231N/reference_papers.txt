@@ -1,0 +1,39 @@
+Normlaized cut (shi and Malik)
+Using AdaBoost to detect faces (Viola and Jones) - HaarCascades
+SIFT
+Spatial Pyramid matching (Schmid and Ponce)
+
+Human Detection : Histogram of gradients
+Deformable Part model
+
+An analysis of deep neural network models for practical applications, 2017
+Visualizing and Understanding Recurrent Neural networks Karpathy
+Show, Attend and Tell : Neural Image Captioning with Visual Attention
+VQA : Visual Question Answering
+Bengio et al : Learning long term dependancies with gradient descent is difficult
+LSTM 1997
+Highway networks paper
+
+
+
+DeepPose
+DenseCap
+Zeiler and Fergus : Visualizing and Understanding Convolutional Networks
+
+Deep inside CNNs:Viz image classification models and saliency maps Simonyan
+Synthesizing the preferred inputs for neurons in NNs via deep generator networks
+
+DeepDream
+Visualizing data usinbg t-SNE Hinton
+Springenverg et al : Striving for simplicity: The all convolutional network?
+
+understanding neural ne through deep visualization ; Yosinski
+Synthesizing the preferred inputs for neurons in neural networks via deep generator networks : Nguyen
+Understanding deep image representations by inverting them
+
+perceptual losses for real time style transfer Justin johnson
+Instance normalization
+
+Auto encoding Variational Bayes
+
+Unsupervised representation learning with deep convolutional Generative Adversarial Networks
