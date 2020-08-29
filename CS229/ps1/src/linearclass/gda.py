@@ -23,7 +23,12 @@ def main(train_path, valid_path, save_path):
     # Read validation set
     x_val, y_val = util.load_dataset(valid_path, add_intercept=True)
 
-    y_pred = model.predict(x_val)
+    # Save predictions to save path
+    np.savetxt(save_path, model.predict(x_val))
+
+    # Plot boundaries
+    util.plot(x_val, y_val, model.theta, save_path[:-4])
+
     # Plot decision boundary on validation set
     # Use np.savetxt to save outputs from validation set to save_path
     # *** END CODE HERE ***
@@ -63,21 +68,24 @@ class GDA:
         """
         # *** START CODE HERE ***
         # Find phi, mu_0, mu_1, and sigma
+        N = x.shape[0]
         y_1 = (y == 1)
         y_0 = (y == 0)
 
         phi = np.mean(y_1)
-        mu_0 = np.sum(x.dot(y_0)) / np.sum(y_0)
-        mu_1 = np.sum(x.dot(y_1)) / np.sum(y_1)
+        mu_0 = np.sum(x[y == 0], axis=0) / np.sum(y_0)
+        mu_1 = np.sum(x[y == 1], axis=0) / np.sum(y_1)
 
-        mu = y_1 * mu_1 + y_0 * mu_0
-        A = (x - mu)
-        sigma = np.mean(A.dot(A.T))
+        A = x
+        A[y == 0] -= mu_0
+        A[y == 1] -= mu_1
+
+        sigma = A.T.dot(A) / N
         sigma_inv = np.linalg.inv(sigma)
 
         # Write theta in terms of the parameters
         if self.theta is None:
-            self.theta = np.zeros(x.shape[1])
+            self.theta = np.zeros(x.shape[1] + 1)
         self.theta[0] = -np.log((1 - phi) / phi) - 0.5 * ((mu_1.T.dot(sigma_inv)).dot(mu_1)
                                                     - (mu_0.T.dot(sigma_inv)).dot(mu_0))
         self.theta[1:] = mu_1.T.dot(sigma_inv) - mu_0.T.dot(sigma_inv)
@@ -94,6 +102,17 @@ class GDA:
             Outputs of shape (n_examples,).
         """
         # *** START CODE HERE ***
+        # validation set has intercept term added
+        scores = x.dot(self.theta)
+
+        # Sigmoid with theta as parameter
+        scores_sig = 1 / (1 + np.exp(-scores))
+
+        # Round off scores to nearest integer
+        y_pred = np.round(scores_sig)
+
+        return y_pred
+
         # *** END CODE HERE
 
 if __name__ == '__main__':
