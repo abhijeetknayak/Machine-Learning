@@ -1,9 +1,9 @@
-**[CS229](http://cs229.stanford.edu/) : Machine Learning** <br><br>
-**Lecture 1 : Introduction to ML** <br>
+**[CS229](http://cs229.stanford.edu/) : Machine Learning** <br>
+## **Lecture 1 : Introduction to ML** <br>
 * Supervised Learning : Learn mapping from n-Dimensional input to a single output. For Classification problems, the output is a label(discrete). For regression problems, the output is continuous. <br>
 * Unsupervised Learning : Just input data provided, no labels. Learn from data and derive hidden information from clusters of data. <br>
 
-**Lecture 2 : Linear regression** <br>
+## **Lecture 2 : Linear regression** <br>
   1. Estimating a continuous value when inputs and corresponding target values are provided as training data <br>
   2. Optimize parameters such that it minimizes the cost function <img src="https://i.upmath.me/svg/J(%5Ctheta)" alt="J(\theta)" /><br>
   **Batch Gradient Descent** form is as follows. Repeat until Convergence!<br>
@@ -13,7 +13,7 @@
   *Using Normal Equations to learn parameters in a single iteration* :<br> After derivations, optimal values for the parameters can be reached within a single iteration. <br>
     <img src="https://i.upmath.me/svg/%5Ctheta%20%3D%20(X%5ETX)%5E%7B-1%7DX%5ETY" alt="\theta = (X^TX)^{-1}X^TY" />  , with the assumption that the matrix is invertible. <br><br>
 
-**Lecture 3 : Locally Weighted Regression + Logistic Regression** <br>
+## **Lecture 3 : Locally Weighted Regression + Logistic Regression** <br>
 * Feature selection is important to decide if linear equations are good enough with the data that you have, or if you would have to depend on other features(Eg x<sup>2</sup>, log(x), etc). 
 * What could also be used is the Locally Weighted Regression algortihm, which weights the losses from training examples according to their proximity to the input under consideration. It is explained below :<br>
 
@@ -32,7 +32,7 @@
 
 **Logistic Regression** : For classification problems <br>
 
-**Lecture 4 : Perceptron + Exponential Family + GLMs + Multiclass Regression**<br>
+## **Lecture 4 : Perceptron + Exponential Family + GLMs + Multiclass Regression**<br>
 * **Perceptron** : This is exactly the same as logistic regression. The only difference here is that h(x) used is different. <br>
 For a perceptron, scores are fed to a function, which is the hard version of the sigmoid.
 **g(z) = 1  if z >= 0; 0 if z < 0**  The updation of parameters remains exactly the same. <br>
@@ -55,6 +55,9 @@ Properties of exponential family : <br>
   1. Cross Entropy essentially is the **distance** between the target distribution and the normalized dstribution after the input is passed through the model<br>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.upmath.me/svg/Cross%5C%20Entropy(p%2C%20%5Chat%20p)%3D-%5Csum_%7By%5C%20%5Cepsilon%5C%20c%7Dp(y)log%5C%20%5Chat%20p(y)%20%3D%20-log(%5Chat%20p_c_i)" alt="Cross\ Entropy(p, \hat p)=-\sum_{y\ \epsilon\ c}p(y)log\ \hat p(y) = -log(\hat p_c_i)" />  where c<sub>i</sub> is the correct class for that example input. <br>
 
-
-
+## **Lecture 5 : Generative and Discriminative Models**
+* Discriminative learning algorithms learn to classify new inputs. A mapping from x -> y (<img src="https://i.upmath.me/svg/p(y%7Cx)" alt="p(y|x)" />) is learnt, where in, given a new input 'x', a class can be determined by using the mapping <br>
+* Generative learning algorithms learn the features pertaining to a certain class. In essence, <img src="https://i.upmath.me/svg/p(x%7Cy)" alt="p(x|y)" /> is learnt by the algorithm. The class prior <img src="https://i.upmath.me/svg/p(y)" alt="p(y)" /> is already known, and using these values, it is easy to estimate <img src="https://i.upmath.me/svg/p(y%7Cx)" alt="p(y|x)" /> using the Naive Bayes rule.
+* **Gaussian Discriminant Analysis** : <br>
+  * Maximum log likelihood estimate on the joint likelihood
 
