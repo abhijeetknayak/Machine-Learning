@@ -21,8 +21,19 @@ def main(lr, train_path, eval_path, save_path):
     # Fit Model to data
     model.fit(x_train, y_train)
 
-
     # Run on the validation set, and use np.savetxt to save outputs to save_path
+    x_val, y_val = util.load_dataset(eval_path, add_intercept=True)
+    y_pred = model.predict(x_val)
+
+    # Save results to txt file
+    np.savetxt(save_path, y_pred)
+
+    # Scatter plot with true and expected counts
+    plt.scatter(y_val, y_pred)
+    plt.ylabel("Expected Count")
+    plt.xlabel("True Counts")
+    plt.savefig('poisson_scatter.png')
+
     # *** END CODE HERE ***
 
 
@@ -62,14 +73,17 @@ class PoissonRegression:
         if self.theta is None:
             self.theta = np.zeros(x.shape[1])
 
+        # Final Values of Theta, so that we can converge in one step
+        # self.theta = np.array([0.64674377, 0.31480216, 0.33194161, 0.4127325, 0.54818236])
+
         for idx in range(self.max_iter):
-            theta = self.theta
+            theta = self.theta.copy()
             scores = np.exp(x.dot(theta))  # For poisson, h(x) = np.exp(x)
 
             grad = (1 / x.shape[0]) * x.T.dot(y - scores)
 
             # Gradient Ascent
-            self.theta += self.step_size * grad
+            self.theta += (self.step_size * grad)
 
             diff = np.sum(abs(theta - self.theta))
             print("Iteration : {}; Change in Parameter : {}".format(idx, diff))
@@ -88,6 +102,7 @@ class PoissonRegression:
             Floating-point prediction for each input, shape (n_examples,).
         """
         # *** START CODE HERE ***
+        return np.exp(x.dot(self.theta))
         # *** END CODE HERE ***
 
 if __name__ == '__main__':
