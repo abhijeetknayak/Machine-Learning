@@ -16,6 +16,12 @@ def main(lr, train_path, eval_path, save_path):
 
     # *** START CODE HERE ***
     # Fit a Poisson Regression model
+    model = PoissonRegression(step_size=lr)
+
+    # Fit Model to data
+    model.fit(x_train, y_train)
+
+
     # Run on the validation set, and use np.savetxt to save outputs to save_path
     # *** END CODE HERE ***
 
@@ -53,6 +59,23 @@ class PoissonRegression:
             y: Training example labels. Shape (n_examples,).
         """
         # *** START CODE HERE ***
+        if self.theta is None:
+            self.theta = np.zeros(x.shape[1])
+
+        for idx in range(self.max_iter):
+            theta = self.theta
+            scores = np.exp(x.dot(theta))  # For poisson, h(x) = np.exp(x)
+
+            grad = (1 / x.shape[0]) * x.T.dot(y - scores)
+
+            # Gradient Ascent
+            self.theta += self.step_size * grad
+
+            diff = np.sum(abs(theta - self.theta))
+            print("Iteration : {}; Change in Parameter : {}".format(idx, diff))
+
+            if diff < self.eps:  # Norm is lesser than threshold. Break here!
+                break
         # *** END CODE HERE ***
 
     def predict(self, x):
