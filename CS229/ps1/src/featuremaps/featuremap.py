@@ -35,6 +35,7 @@ class LinearModel(object):
         for idx in range(100000):
             theta = self.theta.copy()
             scores = X.dot(theta)
+            loss = np.mean((scores - y) ** 2)
 
             first_diff = (1 / N) * X.T.dot(scores - y)
 
@@ -44,7 +45,7 @@ class LinearModel(object):
             self.theta -= 0.01 * hess_inv.dot(first_diff)
             diff = np.sum(abs(theta - self.theta))
 
-            print("Iteration {}; Change in Theta : {}".format(idx, diff))
+            print("Iteration {}; Loss : {}; Change in Theta : {}".format(idx, loss, diff))
 
             if diff < self.eps:
                 break
@@ -94,6 +95,9 @@ class LinearModel(object):
             Outputs of shape (n_examples,).
         """
         # *** START CODE HERE ***
+
+        return X.dot(self.theta)
+
         # *** END CODE HERE ***
 
 
@@ -113,7 +117,10 @@ def run_exp(train_path, sine=False, ks=[1, 2, 3, 5, 10, 20], filename='plot.png'
         x_ = model.create_poly(k, train_x)
 
         model.fit(x_, train_y)
-        
+
+        plot_x_mod = model.create_poly(k, plot_x)
+        plot_y = model.predict(plot_x_mod)
+
         # *** END CODE HERE ***
         '''
         Here plot_y are the predictions of the linear model on the plot_x data
