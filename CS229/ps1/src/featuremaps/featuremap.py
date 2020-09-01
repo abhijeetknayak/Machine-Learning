@@ -16,6 +16,8 @@ class LinearModel(object):
             theta: Weights vector for the model.
         """
         self.theta = theta
+        self.step_size = 0.01
+        self.eps = 1e-5
 
     def fit(self, X, y):
         """Run solver to fit linear model. You have to update the value of
@@ -26,6 +28,27 @@ class LinearModel(object):
             y: Training example labels. Shape (n_examples,).
         """
         # *** START CODE HERE ***
+        N, d = X.shape
+        if self.theta is None:
+            self.theta = np.zeros(d)
+
+        for idx in range(100000):
+            theta = self.theta.copy()
+            scores = X.dot(theta)
+
+            first_diff = (1 / N) * X.T.dot(scores - y)
+
+            hess = (1 / N) * X.T.dot(X)
+            hess_inv = np.linalg.inv(hess)
+
+            self.theta -= 0.01 * hess_inv.dot(first_diff)
+            diff = np.sum(abs(theta - self.theta))
+
+            print("Iteration {}; Change in Theta : {}".format(idx, diff))
+
+            if diff < self.eps:
+                break
+
         # *** END CODE HERE ***
 
     def create_poly(self, k, X):
@@ -87,8 +110,10 @@ def run_exp(train_path, sine=False, ks=[1, 2, 3, 5, 10, 20], filename='plot.png'
         '''
         # *** START CODE HERE ***
         model = LinearModel()
-        model.create_poly(k, train_x)
+        x_ = model.create_poly(k, train_x)
 
+        model.fit(x_, train_y)
+        
         # *** END CODE HERE ***
         '''
         Here plot_y are the predictions of the linear model on the plot_x data
