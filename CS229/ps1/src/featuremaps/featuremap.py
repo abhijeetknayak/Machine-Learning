@@ -81,6 +81,13 @@ class LinearModel(object):
             X: Training example inputs. Shape (n_examples, 2).
         """
         # *** START CODE HERE ***
+        out = self.create_poly(k, X)  # Adding polynomial feature maps
+
+        arr = np.sin(X[:, 1])  # Sin feature map
+        arr = arr[:, np.newaxis]
+        out = np.hstack((out, arr))
+
+        return out
         # *** END CODE HERE ***
 
     def predict(self, X):
@@ -114,11 +121,17 @@ def run_exp(train_path, sine=False, ks=[1, 2, 3, 5, 10, 20], filename='plot.png'
         '''
         # *** START CODE HERE ***
         model = LinearModel()
-        x_ = model.create_poly(k, train_x)
+        if sine:
+            x_ = model.create_sin(k, train_x)
+            plot_x_mod = model.create_sin(k, plot_x)
+            filename = 'plot_with_sin.png'
+
+        else:
+            x_ = model.create_poly(k, train_x)
+            plot_x_mod = model.create_poly(k, plot_x)
 
         model.fit(x_, train_y)
 
-        plot_x_mod = model.create_poly(k, plot_x)
         plot_y = model.predict(plot_x_mod)
 
         # *** END CODE HERE ***
@@ -138,7 +151,13 @@ def main(train_path, small_path, eval_path):
     Run all expetriments
     '''
     # *** START CODE HERE ***
-    run_exp(train_path)
+
+    # Using only polynomial feature maps
+    run_exp(train_path, sine=False)
+
+    # Using polynomial + sin feature maps
+    run_exp(train_path, sine=True)
+
     # *** END CODE HERE ***
 
 if __name__ == '__main__':
