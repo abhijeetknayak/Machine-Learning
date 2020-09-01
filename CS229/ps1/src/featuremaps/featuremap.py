@@ -124,7 +124,6 @@ def run_exp(train_path, sine=False, ks=[1, 2, 3, 5, 10, 20], filename='plot.png'
         if sine:
             x_ = model.create_sin(k, train_x)
             plot_x_mod = model.create_sin(k, plot_x)
-            filename = 'plot_with_sin.png'
 
         else:
             x_ = model.create_poly(k, train_x)
@@ -156,8 +155,11 @@ def main(train_path, small_path, eval_path):
     run_exp(train_path, sine=False)
 
     # Using polynomial + sin feature maps
-    run_exp(train_path, sine=True)
+    run_exp(train_path, sine=True, filename='plot_with_sin.png')
 
+    # Over fitting on a small sample
+    run_exp(small_path, sine=False, filename='overfit.png')
+    
     # *** END CODE HERE ***
 
 if __name__ == '__main__':
