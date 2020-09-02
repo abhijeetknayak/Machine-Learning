@@ -59,5 +59,40 @@ Properties of exponential family : <br>
 * Discriminative learning algorithms learn to classify new inputs. A mapping from x -> y (<img src="https://i.upmath.me/svg/p(y%7Cx)" alt="p(y|x)" />) is learnt, where in, given a new input 'x', a class can be determined by using the mapping <br>
 * Generative learning algorithms learn the features pertaining to a certain class. In essence, <img src="https://i.upmath.me/svg/p(x%7Cy)" alt="p(x|y)" /> is learnt by the algorithm. The class prior <img src="https://i.upmath.me/svg/p(y)" alt="p(y)" /> is already known, and using these values, it is easy to estimate <img src="https://i.upmath.me/svg/p(y%7Cx)" alt="p(y|x)" /> using the Naive Bayes rule.
 * **Gaussian Discriminant Analysis** : <br>
-  * Maximum log likelihood estimate on the joint likelihood
-
+  * EDIT
+  * Maximum log likelihood estimate on the joint likelihood<br>
+  
+## **Lecture 6 : Spam Classifiers with Laplace Smoothing + Support Vector Machines** <br>
+* Spam Classifier : <br>
+  * For all the words in an email, create a one-hot encoded vector representation such that if a word from the vocabulary is available in the email, set it to 1(0 otherwise).
+  This way you would have a (N * D) matrix, where N is the number of training examples, D is the number of words in the vocabulary. This is called as the **Multivariate Bernoulli Event Model** <br>
+  * Use **Gaussian Discriminant Analysis** and **Naive-Bayes**, to estimate p(y|x) using p(x|y) and p(y) as follows : <br>
+  Formulae <br>
+  * This spam classifier has problems with unseen words in the new examples. Probabilities of seeing the words in an email would be zero, thereby causing the probability of classifying an email as spam to be undefined (0/0) <br>
+  * **Laplace Smoothing**(as shown below) helps here, by augmenting the numerator and denominator with 1's, so as to enable numerically stable computation and to make sure that the probabilities aren't hard coded to zero in such cases.  <br>
+  * A new representation can also be used. In **Multinomial Event Model** ----> Explain
+* **Support Vector Machine(SVM)** : <br>
+  * If the data from the training set cannot be classified using a linear classifier, a feature map needs to be created that can learn a non-linear decision boundary to differentiate between samples<br>
+  * The problem here is that **defining the feature map** is hard to do. SVMs helps in these problems, by defining complex, higher dimensional feature maps and using a linear classifier to classify samples of data <br> 
+  * SVM Notation : 'Y' values can be {-1, 1} (and not {0, 1} ). The bias term is now separated. Therefore  <img src="https://i.upmath.me/svg/%5Ctheta%5ETX%20%3D%20W%5ETX%20%2B%20b" alt="\theta^TX = W^TX + b" /> <br>
+  * **Functional Margin** defines the values of the scores where a transition from positive to negative predictions happens. FM of a hyperplane is given by :
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.upmath.me/svg/%5Chat%20%5Cgamma%5Ei%20%3D%20y%5Ei%20*%20(W%5ETX%20%2B%20b)" alt="\hat \gamma^i = y^i * (W^TX + b)" /><br>
+  If y<sup>i</sup> = 1, corresponding score needs to be >> 0. Similarly, if y<sup>i</sup> = -1, scores needs to be << 0 for a good functional margin. Additionally, if a training example has an **FM > 0**, it means that the example is classified correctly. <br>
+  FM for the entire training set would be the **minimum value of the FMs for all training examples(worst case)**
+  * **Geometric Margin** defines the separation between the linear classifier and samples in the data. A classifier with higher geomtric margin is preferred.
+  The GM for an example is given by : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.upmath.me/svg/%5Cgamma%5Ei%20%3D%20%7By%5Ei%20*%20(W%5ETX%20%2B%20b)%20%5Cover%20%7C%7CW%7C%7C%7D" alt="\gamma^i = {y^i * (W^TX + b) \over ||W||}" /><br>
+  ||W|| is the euclidean norm of W<br>
+  GM for the training data is the minimum GM out of all training examples <br>
+  * **Optimal Margin Classifier** : Define parameters (W, b) to maximize the GM.
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
