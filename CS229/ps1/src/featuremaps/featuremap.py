@@ -115,6 +115,9 @@ def run_exp(train_path, sine=False, ks=[1, 2, 3, 5, 10, 20], filename='plot.png'
     plt.figure()
     plt.scatter(train_x[:, 1], train_y)
 
+    # For return to main function
+    model = None
+
     for k in ks:
         '''
         Our objective is to train models and perform predictions on plot_x data
@@ -144,6 +147,8 @@ def run_exp(train_path, sine=False, ks=[1, 2, 3, 5, 10, 20], filename='plot.png'
     plt.savefig(filename)
     plt.clf()
 
+    return model
+
 
 def main(train_path, small_path, eval_path):
     '''
@@ -152,14 +157,35 @@ def main(train_path, small_path, eval_path):
     # *** START CODE HERE ***
 
     # Using only polynomial feature maps
-    run_exp(train_path, sine=False)
+    # run_exp(train_path, sine=False)
 
     # Using polynomial + sin feature maps
-    run_exp(train_path, sine=True, filename='plot_with_sin.png')
+    # run_exp(train_path, sine=True, filename='plot_with_sin.png')
 
     # Over fitting on a small sample
-    run_exp(small_path, sine=False, filename='overfit.png')
-    
+    # run_exp(small_path, sine=False, filename='overfit.png')
+
+    # Training + testing Validation set
+    k = 5
+    model = run_exp(train_path, sine=False, ks=[k], filename='k' + str(k) + 'poly.png')
+
+    # Validation data read
+    val_x, val_y = util.load_dataset(eval_path, add_intercept=True)
+
+    val_x_mod = model.create_poly(k, val_x)
+
+    # Predictions
+    y_pred = model.predict(val_x_mod)
+
+    # Plotting
+    plt.figure()
+    plt.scatter(val_x[:, 1], val_y)
+    plt.ylim(-2, 2)
+    plt.plot(val_x[:, 1], y_pred)
+
+    plt.savefig('val_plot_poly.png')
+    plt.clf()
+
     # *** END CODE HERE ***
 
 if __name__ == '__main__':
