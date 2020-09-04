@@ -1,5 +1,5 @@
 import numpy as np
-from data_utils import load_data
+from data_utils import *
 
 class SoftmaxRegression():
     def __init__(self):
@@ -13,5 +13,7 @@ class SoftmaxRegression():
 
 if __name__ == '__main__':
     path = 'data/'
-    x_train, y_train = load_data(path)
-    print(x_train.shape, y_train.shape)
+    # x_train, y_train = load_data(path)
+    x_train, y_train = load_data_numpy(path)
+    # print(x_train.shape, y_train.shape)
+    x_train = select_features(x_train)
