@@ -24,7 +24,8 @@ def load_data_df(path):
     out.columns = ["NumLanes", "LnChg", "OlrValid", "LnWidth", "DistL", "DistR",
                    "DistL", "DistR", "DistL", "DistR", "DistL", "DistR", "DistL", "DistR", "L2", "L1",
                    "R2", "R1", "LN1", "RN1", "Id"]
-    print(out.shape)
+    return out
+
 
 def load_data_numpy(path):
     """
@@ -47,6 +48,25 @@ def load_data_numpy(path):
             out = np.vstack((out, data))
     return out[:, 0:20], out[:, 20]
 
+
+def select_features(X, ks):
+    """
+    Select features that you want in the training data
+
+    Args: Input data of size [N * D]
+
+    Returns: numpy array of size [N * K]
+    """
+    out = None
+    for k in ks:
+        if out is None:
+            out = X[:, k]
+            out = out[:, np.newaxis]
+        else:
+            slice = X[:, k]
+            slice = slice[:, np.newaxis]
+            out = np.hstack((out, slice))
+    return out
 
 
 
