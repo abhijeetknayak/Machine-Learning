@@ -42,6 +42,21 @@ def create_dictionary(messages):
     """
 
     # *** START CODE HERE ***
+    outDict = dict()
+    i = 0
+    for message in messages:
+        words = get_words(message)
+        for word in words:
+            if word in outDict:
+                outDict[word] += 1
+            else:
+                outDict[word] = 1
+    for word in outDict:
+        if outDict[word] >= 5:
+            outDict[word] = i
+            i += 1
+
+    return outDict 
     # *** END CODE HERE ***
 
 
