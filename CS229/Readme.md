@@ -83,7 +83,29 @@ Properties of exponential family : <br>
   The GM for an example is given by : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.upmath.me/svg/%5Cgamma%5Ei%20%3D%20%7By%5Ei%20*%20(W%5ETX%20%2B%20b)%20%5Cover%20%7C%7CW%7C%7C%7D" alt="\gamma^i = {y^i * (W^TX + b) \over ||W||}" /><br>
   ||W|| is the euclidean norm of W<br>
   GM for the training data is the minimum GM out of all training examples <br>
-  * **Optimal Margin Classifier** : Define parameters (W, b) to maximize the GM.
+  * **Optimal Margin Classifier** : Define parameters (W, b) to maximize the GM. <br>
+
+## **Lecture 7 : Kernels**
+* Optimization for the Optimal Margin Classifier can be represented as :
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.upmath.me/svg/min%20%5C%20%7B1%20%5Cover%202%7D%20%7C%7CW%7C%7C%5E2%20%5C%20subject%5C%20to%5C%20y%5Ei(W%5ETX%5Ei%20%2B%20b)%20%3E%3D%201" alt="min \ {1 \over 2} ||W||^2 \ subject\ to\ y^i(W^TX^i + b) &gt;= 1" />
+* The parameters can be represented as a linear combination of the inputs.
+  * Intuition 1 : This is because we always start optimization with zero valued parameters, and continuously add a portion of the input to the parameters.
+  * Intuition 2 : Vector pertaining to the parameters is perpendicular to the decision boundary. **W** sets the direction of the decision boundary, where as **b** varies the position of the decision boundary. As **W** spans the vector space, we can assume that the parameter is a linear combination of the inputs.
+  * Using this property, an efficient **O(n)** computation can be used to update parameters -----> Kernel Trick.
+* **Kernel Trick** : 
+  * Start by finding the inner product of the feature map of X with itself. This is called as the Kernel.<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.upmath.me/svg/K(X%2C%20Z)%20%3D%5C%20%20%3C%5Cphi(X)%2C%20%5Cphi(Z)%3E%20%5C%20%3D%20%5Cphi(X)%5ET%5Cphi(Z)" alt="K(X, Z) =\  &lt;\phi(X), \phi(Z)&gt; \ = \phi(X)^T\phi(Z)" /> <br>
+  * Replace inner products <X, Z> with K(X, Z). Finding K(X, Z) is an efficient manner helps solve the problem of having a large number of dimensions in the feature map.
+  * **The Kernel function that is used depends on the feature mapping** <img src="https://i.upmath.me/svg/X%20%5C%20-%3E%20%5Cphi(X)" alt="X \ -&gt; \phi(X)" />
+  * **Linear Kernel** : The high dimensional feature map is the same as the input vectors.
+  * **Polynomial Kernel** : &nbsp;&nbsp;&nbsp;<img src="https://i.upmath.me/svg/K(X%2C%20Z)%20%3D%5C%20%20(X%5ETZ%20%2B%20C)%5Ed" alt="K(X, Z) =\  (X^TZ + C)^d" />
+  * **Gaussian Kernel** : &nbsp;&nbsp;&nbsp;<img src="https://i.upmath.me/svg/K(X%2C%20Z)%20%3D%20%5Cexp(-%20%7B%7C%7CX%20-%20Z%7C%7C%5E2%20%5Cover%202%5Csigma%5E2%7D)" alt="K(X, Z) = \exp(- {||X - Z||^2 \over 2\sigma^2})" />
+* **Support Vector Machines** : Applying the Kernel trick on an optimal margin classifier ---> SVM. This allows us to use a high dimensional feature space, but computational complexity still remains O(n)
+* How to define a Kernel :
+  * **Mercer's Theorem** : K is a valid Kernel function, if there exists a valid function <img src="https://i.upmath.me/svg/%5Cphi(X)" alt="\phi(X)" /> such that <img src="https://i.upmath.me/svg/K(X%2C%20Z)%20%3D%20%5Cphi(X)%5ET%5Cphi(Z)" alt="K(X, Z) = \phi(X)^T\phi(Z)" />, if and only if for any 'd' points, the corresponding Kernel matrix K is Positive semi-definite
+* **L1 Norm Soft Margin SVM** : To prevent overfitting while using Kernels, a soft margin can be used during classification. The optimization function now changes to :
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.upmath.me/svg/min%20%5C%20%7B1%20%5Cover%202%7D%20%7C%7CW%7C%7C%5E2%20%2B%20C%5Csum_%7Bi%3D1%7D%5En%7B%5Cxi_i%7D%20%0A%5C%5C%20subject%5C%20to%5C%20y%5Ei(W%5ETX%5Ei%20%2B%20b)%20%3E%3D%201%20-%20%5Cxi_i%5C%20%3B%20%5C%20%5Cxi_i%20%3E%3D%200" alt="min \ {1 \over 2} ||W||^2 + C\sum_{i=1}^n{\xi_i} 
+\\ subject\ to\ y^i(W^TX^i + b) &gt;= 1 - \xi_i\ ; \ \xi_i &gt;= 0" />
   
   
   
