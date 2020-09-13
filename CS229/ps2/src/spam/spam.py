@@ -56,7 +56,7 @@ def create_dictionary(messages):
             outDict[word] = i
             i += 1
 
-    return outDict 
+    return outDict
     # *** END CODE HERE ***
 
 
@@ -81,6 +81,16 @@ def transform_text(messages, word_dictionary):
         j-th vocabulary word in the i-th message.
     """
     # *** START CODE HERE ***
+    N = len(messages)
+    D = len(word_dictionary)
+    
+    out = np.zeros((N, D))
+    for idx, message in enumerate(messages):
+        words = get_words(message)
+        for word in words:
+            if word in word_dictionary:
+                out[idx, word_dictionary[word]] += 1
+
     # *** END CODE HERE ***
 
 
