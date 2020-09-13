@@ -21,6 +21,7 @@ def get_words(message):
     """
 
     # *** START CODE HERE ***
+    return list(map(lambda x: x.lower(), message.split(' ')))
     # *** END CODE HERE ***
 
 
