@@ -106,6 +106,18 @@ Properties of exponential family : <br>
 * **L1 Norm Soft Margin SVM** : To prevent overfitting while using Kernels, a soft margin can be used during classification. The optimization function now changes to :
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.upmath.me/svg/min%20%5C%20%7B1%20%5Cover%202%7D%20%7C%7CW%7C%7C%5E2%20%2B%20C%5Csum_%7Bi%3D1%7D%5En%7B%5Cxi_i%7D%20%0A%5C%5C%20subject%5C%20to%5C%20y%5Ei(W%5ETX%5Ei%20%2B%20b)%20%3E%3D%201%20-%20%5Cxi_i%5C%20%3B%20%5C%20%5Cxi_i%20%3E%3D%200" alt="min \ {1 \over 2} ||W||^2 + C\sum_{i=1}^n{\xi_i} 
 \\ subject\ to\ y^i(W^TX^i + b) &gt;= 1 - \xi_i\ ; \ \xi_i &gt;= 0" />
+
+## **Lecture 8 : Bias, Variance**
+* Bias
+
+* Variance
+
+* Cross Validation techniques :
+  * (Simple) Hold-out Cross Validation : Divide data into train, validation and test sets. Always validate the model using Vlaidation set. Thereafter, when themodel is ready for a test, run predictions on the test set
+  * K-fold Cross Validation : Divide the training data into 'k' pieces. Train on 'k - 1' pieces of data and validate on the last piece. Repeat this process using all pieces as the valiudation set and then average the results obtained
+  * Leave-one-out Cross Validation : Leave out one sample as the validation 'set'. Train on all other samples, validate on one sample
+* Feature Selection
+  
   
   
   
