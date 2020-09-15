@@ -43,6 +43,7 @@ def create_dictionary(messages):
 
     # *** START CODE HERE ***
     outDict = dict()
+    new = dict()
     i = 0
     for message in messages:
         words = get_words(message)
@@ -53,10 +54,10 @@ def create_dictionary(messages):
                 outDict[word] = 1
     for word in outDict:
         if outDict[word] >= 5:
-            outDict[word] = i
+            new[word] = i
             i += 1
 
-    return outDict
+    return new
     # *** END CODE HERE ***
 
 
@@ -83,13 +84,15 @@ def transform_text(messages, word_dictionary):
     # *** START CODE HERE ***
     N = len(messages)
     D = len(word_dictionary)
-    
+
     out = np.zeros((N, D))
     for idx, message in enumerate(messages):
         words = get_words(message)
         for word in words:
             if word in word_dictionary:
                 out[idx, word_dictionary[word]] += 1
+
+    return out
 
     # *** END CODE HERE ***
 
@@ -111,6 +114,14 @@ def fit_naive_bayes_model(matrix, labels):
     """
 
     # *** START CODE HERE ***
+    prob = dict()
+
+    N, D = matrix.shape
+    spam_messages = labels[labels == 1]
+
+    phi_y = (1 / N) * np.sum(spam_messages)
+
+
     # *** END CODE HERE ***
 
 
@@ -124,7 +135,7 @@ def predict_from_naive_bayes_model(model, matrix):
         model: A trained model from fit_naive_bayes_model
         matrix: A numpy array containing word counts
 
-    Returns: A numpy array containg the predictions from the model
+    Returns: A numpy array containing the predictions from the model
     """
     # *** START CODE HERE ***
     # *** END CODE HERE ***
@@ -185,6 +196,8 @@ def main():
     test_matrix = transform_text(test_messages, dictionary)
 
     naive_bayes_model = fit_naive_bayes_model(train_matrix, train_labels)
+
+    return
 
     naive_bayes_predictions = predict_from_naive_bayes_model(naive_bayes_model, test_matrix)
 
