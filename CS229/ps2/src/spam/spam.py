@@ -114,14 +114,24 @@ def fit_naive_bayes_model(matrix, labels):
     """
 
     # *** START CODE HERE ***
-    prob = dict()
+    model = dict()
 
     N, D = matrix.shape
     spam_messages = labels[labels == 1]
 
     phi_y = (1 / N) * np.sum(spam_messages)
+    pos_subset = matrix[labels == 1]
+    neg_subset = matrix[labels == 0]
 
+    # Probabilities, with laplace smoothing
+    pos_prob = (1 + np.sum(pos_subset, axis=0)) / (np.sum(pos_subset) + D)
+    neg_prob = (1 + np.sum(neg_subset, axis=0)) / (np.sum(neg_subset) + D)
 
+    model['pos_prob'] = pos_prob
+    model['neg_prob'] = neg_prob
+    model['phi_y'] = phi_y
+
+    return model
     # *** END CODE HERE ***
 
 
