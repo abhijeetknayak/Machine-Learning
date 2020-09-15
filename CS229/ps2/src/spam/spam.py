@@ -148,6 +148,24 @@ def predict_from_naive_bayes_model(model, matrix):
     Returns: A numpy array containing the predictions from the model
     """
     # *** START CODE HERE ***
+    N, _ = matrix.shape
+    out = np.zeros(N)
+
+    pos_log = np.log(model['pos_prob'])
+    neg_log = np.log(model['neg_prob'])
+    phi_y = model['phi_y']
+
+    # pos_log [D, ], neg_log [D, ]
+    numerator = np.sum(matrix * neg_log, axis=1) + np.log(1 - phi_y)
+    denominator = np.sum(matrix * pos_log, axis=1) + np.log(phi_y)
+    result = numerator - denominator  # Take difference because of logarithm
+    result = np.exp(result)
+
+    prob = 1 / (1 + result)
+    out[prob >= 0.5] = 1  # If Prob is greater than 1, mark as spam(positive example)
+
+    return out
+
     # *** END CODE HERE ***
 
 
@@ -206,8 +224,6 @@ def main():
     test_matrix = transform_text(test_messages, dictionary)
 
     naive_bayes_model = fit_naive_bayes_model(train_matrix, train_labels)
-
-    return
 
     naive_bayes_predictions = predict_from_naive_bayes_model(naive_bayes_model, test_matrix)
 
