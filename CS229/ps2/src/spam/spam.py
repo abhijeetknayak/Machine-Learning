@@ -182,6 +182,15 @@ def get_top_five_naive_bayes_words(model, dictionary):
     Returns: A list of the top five most indicative words in sorted order with the most indicative first
     """
     # *** START CODE HERE ***
+    out = []
+    prob = np.log(model['pos_prob'] / model['neg_prob'])
+    prob_sort = np.argsort(prob)[-5:]  # Last five indices after sorting
+    for keys in dictionary:
+        if dictionary[keys] in prob_sort:
+            out.append(keys)
+
+    return out
+
     # *** END CODE HERE ***
 
 
@@ -193,7 +202,7 @@ def compute_best_svm_radius(train_matrix, train_labels, val_matrix, val_labels, 
 
     Args:
         train_matrix: The word counts for the training data
-        train_labels: The spma or not spam labels for the training data
+        train_labels: The spam or not spam labels for the training data
         val_matrix: The word counts for the validation data
         val_labels: The spam or not spam labels for the validation data
         radius_to_consider: The radius values to consider
