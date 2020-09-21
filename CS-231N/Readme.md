@@ -1,14 +1,11 @@
-**Lecture 1** : 
+# **CS231N : [Convolutional Neural Networks for Visual Recognition](http://cs231n.stanford.edu/index.html)**
+## **Lecture 1** : 
 An overview of Computer Vision and problems everyone is trying to solve.
 
-**Lecture 2 : K-Nearest Neighbor Classifier**
+## **Lecture 2 : K-Nearest Neighbor Classifier** <br>
+hello
 
-
-**Lecture 3 : **
-
-
-
-**Lecture 4 : Loss Functions and Optimization**
+## **Lecture 3 : Loss Functions and Optimization**
 A Loss function, in essence, is a measure of **how bad the learned weights of a model are.**<br>
 The loss function includes model **prediction** and then a **comparison** between the predicted value and the true value. <br>
 Depending on the output of your loss function, you would know if your model is any good. <br>
@@ -23,13 +20,14 @@ The learning part is introduced with the loss function. While training a model, 
   
   2. Softmax Loss :
 
+## **Lecture 4 : Introduction to Neural Networks** <br>
 
 
-**Lecture 5 : Convolutional Neural Networks**
+## **Lecture 5 : Convolutional Neural Networks** <br>
 
 
 
-**Lecture 6 : Training Networks**
+## **Lecture 6 : Training Networks**
   1. Choice of Activation functions for your network:
       | Activation Function | f(x) <img></img> | Pros | Cons |
       | :---: |---| :--- | :--- |
@@ -69,7 +67,7 @@ The learning part is introduced with the loss function. While training a model, 
          A big difference between Train and Val accuracy(Overfitting) - Increase Regularization; Small difference - Model saturated. Increase model capacity.
          Monitor loss curves for information about the learning rate effectiveness.
          
-**Lecture 7 : Training your Network** <br>
+## **Lecture 7 : Training your Network** <br>
 *Optimization Algorithms :*<br><br>
   A Number of optimization methods are defined. The simplest one among these is the Stochastic Gradient descent. Although its a good way to optimize the parameters of your model, the algorithm has its own drawbacks, which leads to inefficient optimization.<br>
   These are : <br>
@@ -123,7 +121,7 @@ There are many ways to prevent overfitting :
   
   Instead of this you can also use an **"Inverted Dropout"**.  At train time, divide the input by the keep probability p, at test time no changes are required. 
     
-**Lecture 8 : Deep Learning Software** <br>
+## **Lecture 8 : Deep Learning Software** <br>
 ----> CPU vs GPU : <br>
 A **CPU** has lesser number of cores, but these have much higher clock sppeds compared to GPU cores, and hence are better preferred for sequential tasks. Memory shared with the system. <br>
 A **GPU** has thousands of cores, but have small clock speeds, and are only used for parallel processing. They also have their own memory. <br>  
@@ -158,7 +156,7 @@ While using PyTorch, the graph is created multiple times(created within the loop
   2. **Using the PyTorch Module API** : Inherit properties of the nn.module(use super().init() function for that), and initialize all layers in the model. Additionally create a __forward()__ function to call all layers with required input tensors.
   3. **Using PyTorch with the Sequential API** : Using nn.Sequential to stack sequential layers on top of each other to create a model. If a user defined layer is required to be used, create a new class for the layer(point 2) and use the class instead. This way of using PyTorch is user-friendly, but it isnt very flexible, if the model is not sequential.
 
-**Lecture 9 : CNN Architectures**
+## **Lecture 9 : CNN Architectures**
 
 ----> [**AlexNet**](https://github.com/abhijeetknayak/Deep-Learning/blob/master/CS-231N/Material/AlexNet.png) : <br>[[Conv] - [MaxPool] - [Normalization]] * 2 - [Conv] - [Conv] - [Conv] - [Pool] - [FC] * 3] <br>
 **Conv1** : 96 11 * 11 filters, with stride = 4 ----> Output Dimension : __55 * 55 * 96__; Learnable parameters : __11 * 11 * 3 * 96__ <br>
@@ -209,7 +207,7 @@ Hyperparameters used are shown [here](https://github.com/abhijeetknayak/Deep-Lea
   5. [**FractalNet**](https://github.com/abhijeetknayak/Deep-Learning/blob/master/CS-231N/Material/Fractal-Net.png) - Arranged as fractals. Gets rid of residual connections
   6. [**SqueezeNet**](https://github.com/abhijeetknayak/Deep-Learning/blob/master/CS-231N/Material/SqueezeNet.png) - "Fire" modules with "Squeeze" Conv layers(1 * 1 Conv) and "Expand" Layers(1 * 1, 3 * 3 and so on). Increases efficiency
 
-**Lecture 10 : [Recurrent Neural Networks](https://github.com/abhijeetknayak/Deep-Learning/blob/master/CS-231N/Material/RNN-State.png)** <br>
+## **Lecture 10 : [Recurrent Neural Networks](https://github.com/abhijeetknayak/Deep-Learning/blob/master/CS-231N/Material/RNN-State.png)** <br>
 All networks until now had a single input and generated an output. Recurrent Networks are used in applications where the number of inputs and outputs varies, depending on the intended application. You could have 'one-to-many', 'many-to-one', or 'many-to-many' recurrent networks.<br>
 Image Captioning, Sentiment Classification, Video Analytics, Text translation, etc are applications where RNNs are used. <br>
 RNN forward Step :    __h<sub>t</sub> = tanh(x.Wx + h<sub>t-1</sub>.Wh + b)__ <br>
@@ -248,7 +246,7 @@ The forward pass of an [LSTM cell](https://github.com/abhijeetknayak/Deep-Learni
   A parallel stream : *[Detection without proposals]()*<br>
   4. **Instance Segmentation** : Instances of similar objects are seperated. [Mask R-CNN]() additionally predicts a mask for the object along with the class and the bounding box dimensions.<br>
   
-**Lecture 12 : Visualizing network outputs** <br>
+## **Lecture 12 : Visualizing network outputs** <br>
   1. Weights of the first layer of a CNN can be visualized. As the inner product is maximized when the image(or a part of it) matches the weight filters, visualizing the weights can give us a rough idea of what the filter is looking for in the image. <br>
   2. Intermediate layer weights can also be visualized this way, but they're not very insightful. As these weights have a different number of channels, we would have to visualize them as sets of grayscale images.<br>
   3. Fully Connected layer outputs can also be visualized. Nearest Neighbor visualizations can be used here. Nearest neighbor approach in pixel space may be ambiguous. Computing nearest neighbors in feature space results in images that have similar features. <br>
@@ -260,11 +258,18 @@ The forward pass of an [LSTM cell](https://github.com/abhijeetknayak/Deep-Learni
   9. Guided backpropagation : <br>
   10. Class Visualization with Gradient ascent : Start with a zero image and find image gradient that maximizes a class score. Then, perform a gradient ascent so as to maximize the score. This generates a new image that maximizes the class score. The regularization makes the image look relatively natural. Other implicit regularizers used are gaussian blurring, image jitter(shift the whole image by some pixels), etc. <br>
   11. Fooling Images : Maximizing the class score for a particular target class and performing gradient ascent so as to generate an image which is classified as the target class. <br> 
-**Lecture 13 : Generative Models** <br>
- Edit!
-
-  
-  
+## **Lecture 13 : [Generative Models]() : Unsupervised Learning Techniques** <br>
+* **PixelRNN and PixelCNN** : Sequentially generates each pixel of the image. This is an explicit density function, where p(x) can actually be obtained. Its very slow though because of the sequential process of generation
+* **Variational Autoencoders**
+  * [Autoencoders]() : Encoder-Decoder combination that derives features from the input and then reconstructs the inputs data via the decoder.
+  * By defining a latent variable Z, a [lower bound]() is obtained on the log likelihood. The intractable terms are always >= 0
+  * While generating new data, sample Z from the prior and pass this through the decoder network. Sample data from p(x|z). Variations in the latent variable 'Z' results in variations in the generated data
+  * Pros and Cons [here]()
+* **Generative Adversarial Networks** : Implicit Density estimation. Learn through a min-max game.<br>
+  * GANs use a Generator network that tries to fool the discriminator by generating real-looking images. The discriminator tries to distinguish between the real and fake images.
+  * The [objective function]() of a GAN is : <br>
+<img src="https://i.upmath.me/svg/min_%7B%5Ctheta_g%7D%20max_%7B%5Ctheta_d%7D%5BE_%7Bx%20%5C%20%3C-%20%5C%20p_%7Bdata%7D%7Dlog(D_%7B%5Ctheta_d%7D(x))%20%5C%20%2B%20%5C%20E_%7Bz%20%5C%20%3C-%20%5C%20p(z)%7Dlog(1%20-%20D_%7B%5Ctheta_d%7D(G_%7B%5Ctheta_g%7D(z)))%5D" alt="min_{\theta_g} max_{\theta_d}[E_{x \ &lt;- \ p_{data}}log(D_{\theta_d}(x)) \ + \ E_{z \ &lt;- \ p(z)}log(1 - D_{\theta_d}(G_{\theta_g}(z)))]" />
+  * While [training a GAN](), the discriminator is trained on noise(for a few steps). Then Gradient Ascent is applied on the generator.
   
 
   
