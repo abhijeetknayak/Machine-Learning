@@ -21,8 +21,8 @@ def load_data_df(path):
             df = pd.read_csv(file, header=None)
             out = pd.concat((out, df))
     # Set header
-    out.columns = ["NumLanes", "LnChg", "OlrValid", "LnWidth", "DistL", "DistR",
-                   "DistL", "DistR", "DistL", "DistR", "DistL", "DistR", "DistL", "DistR", "L2", "L1",
+    out.columns = ["LN", "LC", "Valid", "W", "D1L", "D1R",
+                   "D2L", "D2R", "D3L", "D3R", "D4L", "D4R", "D5L", "D5R", "L2", "L1",
                    "R2", "R1", "LN1", "RN1", "Id"]
     return out
 
