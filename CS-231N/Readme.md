@@ -258,18 +258,19 @@ The forward pass of an [LSTM cell](https://github.com/abhijeetknayak/Deep-Learni
   9. Guided backpropagation : <br>
   10. Class Visualization with Gradient ascent : Start with a zero image and find image gradient that maximizes a class score. Then, perform a gradient ascent so as to maximize the score. This generates a new image that maximizes the class score. The regularization makes the image look relatively natural. Other implicit regularizers used are gaussian blurring, image jitter(shift the whole image by some pixels), etc. <br>
   11. Fooling Images : Maximizing the class score for a particular target class and performing gradient ascent so as to generate an image which is classified as the target class. <br> 
-## **Lecture 13 : [Generative Models]() : Unsupervised Learning Techniques** <br>
+## **Lecture 13 : [Generative Models](https://github.com/abhijeetknayak/Machine-Learning/blob/master/CS-231N/Material/Generative-Models.png) : Unsupervised Learning Techniques** <br>
 * **PixelRNN and PixelCNN** : Sequentially generates each pixel of the image. This is an explicit density function, where p(x) can actually be obtained. Its very slow though because of the sequential process of generation
 * **Variational Autoencoders**
-  * [Autoencoders]() : Encoder-Decoder combination that derives features from the input and then reconstructs the inputs data via the decoder.
-  * By defining a latent variable Z, a [lower bound]() is obtained on the log likelihood. The intractable terms are always >= 0
+  * [Autoencoders](https://github.com/abhijeetknayak/Machine-Learning/blob/master/CS-231N/Material/Autoencoder.png) : Encoder-Decoder combination that derives features from the input and then reconstructs the inputs data via the decoder.
+  * By defining a latent variable Z, a [lower bound](https://github.com/abhijeetknayak/Machine-Learning/blob/master/CS-231N/Material/VAE-Math.png) is obtained on the log likelihood. The intractable terms are always >= 0
   * While generating new data, sample Z from the prior and pass this through the decoder network. Sample data from p(x|z). Variations in the latent variable 'Z' results in variations in the generated data
-  * Pros and Cons [here]()
-* **Generative Adversarial Networks** : Implicit Density estimation. Learn through a min-max game.<br>
-  * GANs use a Generator network that tries to fool the discriminator by generating real-looking images. The discriminator tries to distinguish between the real and fake images.
-  * The [objective function]() of a GAN is : <br>
-<img src="https://i.upmath.me/svg/min_%7B%5Ctheta_g%7D%20max_%7B%5Ctheta_d%7D%5BE_%7Bx%20%5C%20%3C-%20%5C%20p_%7Bdata%7D%7Dlog(D_%7B%5Ctheta_d%7D(x))%20%5C%20%2B%20%5C%20E_%7Bz%20%5C%20%3C-%20%5C%20p(z)%7Dlog(1%20-%20D_%7B%5Ctheta_d%7D(G_%7B%5Ctheta_g%7D(z)))%5D" alt="min_{\theta_g} max_{\theta_d}[E_{x \ &lt;- \ p_{data}}log(D_{\theta_d}(x)) \ + \ E_{z \ &lt;- \ p(z)}log(1 - D_{\theta_d}(G_{\theta_g}(z)))]" />
-  * While [training a GAN](), the discriminator is trained on noise(for a few steps). Then Gradient Ascent is applied on the generator.
+  * Pros and Cons [here](https://github.com/abhijeetknayak/Machine-Learning/blob/master/CS-231N/Material/VAE-Pros-Cons.png)
+* **[Generative Adversarial Networks](https://github.com/abhijeetknayak/Machine-Learning/blob/master/CS-231N/Material/GANs.png)** :
+  * Implicit Density estimation. Learn through a min-max game
+  * GANs use a Generator network that tries to fool the discriminator by generating real-looking images. The discriminator tries to distinguish between the real and fake images
+  * The [objective function](https://github.com/abhijeetknayak/Machine-Learning/blob/master/CS-231N/Material/GAN-Objective-Function.png) of a GAN is : 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.upmath.me/svg/min_%7B%5Ctheta_g%7D%20max_%7B%5Ctheta_d%7D%5BE_%7Bx%20%5C%20%3C-%20%5C%20p_%7Bdata%7D%7Dlog(D_%7B%5Ctheta_d%7D(x))%20%5C%20%2B%20%5C%20E_%7Bz%20%5C%20%3C-%20%5C%20p(z)%7Dlog(1%20-%20D_%7B%5Ctheta_d%7D(G_%7B%5Ctheta_g%7D(z)))%5D" alt="min_{\theta_g} max_{\theta_d}[E_{x \ &lt;- \ p_{data}}log(D_{\theta_d}(x)) \ + \ E_{z \ &lt;- \ p(z)}log(1 - D_{\theta_d}(G_{\theta_g}(z)))]" />
+  * While [training a GAN](https://github.com/abhijeetknayak/Machine-Learning/blob/master/CS-231N/Material/Gan-Training.png), the discriminator is trained on noise(for a few steps). Then Gradient Ascent is applied on the generator as shown [here](https://github.com/abhijeetknayak/Machine-Learning/blob/master/CS-231N/Material/GAN-grad-Ascent.png).
   
 
   
