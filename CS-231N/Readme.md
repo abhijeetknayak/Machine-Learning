@@ -271,6 +271,10 @@ The forward pass of an [LSTM cell](https://github.com/abhijeetknayak/Deep-Learni
   * The [objective function](https://github.com/abhijeetknayak/Machine-Learning/blob/master/CS-231N/Material/GAN-Objective-Function.png) of a GAN is : 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.upmath.me/svg/min_%7B%5Ctheta_g%7D%20max_%7B%5Ctheta_d%7D%5BE_%7Bx%20%5C%20%3C-%20%5C%20p_%7Bdata%7D%7Dlog(D_%7B%5Ctheta_d%7D(x))%20%5C%20%2B%20%5C%20E_%7Bz%20%5C%20%3C-%20%5C%20p(z)%7Dlog(1%20-%20D_%7B%5Ctheta_d%7D(G_%7B%5Ctheta_g%7D(z)))%5D" alt="min_{\theta_g} max_{\theta_d}[E_{x \ &lt;- \ p_{data}}log(D_{\theta_d}(x)) \ + \ E_{z \ &lt;- \ p(z)}log(1 - D_{\theta_d}(G_{\theta_g}(z)))]" />
   * While [training a GAN](https://github.com/abhijeetknayak/Machine-Learning/blob/master/CS-231N/Material/Gan-Training.png), the discriminator is trained on noise(for a few steps). Then Gradient Ascent is applied on the generator as shown [here](https://github.com/abhijeetknayak/Machine-Learning/blob/master/CS-231N/Material/GAN-grad-Ascent.png).
+
+## **Lecture 14 : Deep Reinforcement Learning**
+* Markov Decision Process : Formalizing the RL problem
+
   
 
   
