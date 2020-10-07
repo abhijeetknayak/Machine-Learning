@@ -14,21 +14,16 @@ L =
 
 The learning part is introduced with the loss function. While training a model, you would always want to reduce your loss by optimizing your model after each iteration. This is where optimization comes in. As you would like to minimize your model loss, the optimization is always performed in the direction of the highest gradient(or slope.)
 
-  1. Hinge Loss : L = 
+  1. Hinge Loss : &nbsp;&nbsp;&nbsp;&nbsp;<img src="https://i.upmath.me/svg/Loss%20%3D%20%5Csum_%7Bj%5Cneq%20y_i%7Ds_j%20-%20s_%7By_i%7D%20%2B%20%5Cdelta" alt="Loss = \sum_{j\neq y_i}s_j - s_{y_i} + \delta" />  
   
-  
-  
-  2. Softmax Loss :
+  2. Softmax Loss : &nbsp;&nbsp;&nbsp;&nbsp; <img src="https://i.upmath.me/svg/Loss%20%3D%20%5Csum%20-log(p_%7By_i%7D)%20%5C%20where%20%5C%20p_%7By_i%7D%20%3D%20%7B%5Cexp(s_%7By_i%7D)%20%5Cover%20%5Csum_%7Bj%7D%5Cexp(s_j)%20%20%7D" alt="Loss = \sum -log(p_{y_i}) \ where \ p_{y_i} = {\exp(s_{y_i}) \over \sum_{j}\exp(s_j)  }" />
 
-## **Lecture 4 : Introduction to Neural Networks** <br>
-
-
-## **Lecture 5 : Convolutional Neural Networks** <br>
-
+## **Lecture 4/5 : Introduction to Neural Networks, Convolutional Neural Networks** <br>
+*
 
 
 ## **Lecture 6 : Training Networks**
-  1. Choice of Activation functions for your network:
+  1. **Choice of Activation functions for your network**:
       | Activation Function | f(x) <img></img> | Pros | Cons |
       | :---: |---| :--- | :--- |
       | Sigmoid | 1 / (1 + e<sup>-x</sup>) | -> None. Don't use this | -> Output isn't zero centered. <br> -> Kills gradient flow as a result of saturation at a high or low x-value |
@@ -40,7 +35,7 @@ The learning part is introduced with the loss function. While training a model, 
       |<img width=200/>|<img width=375/>| | |
   
   
-  2. Data Pre-processing(Zero Centered Data) :
+  2. **Data Pre-processing(Zero Centered Data)** :
       Why is zero mean data required? Assume a scenario where all the inputs(X) is positive. You forward propagate through the network and obtain a loss value.<br>
       During backprop at this layer, the upstream gradient can either be positive or negative. The local gradient of W is X.<br>
       Therefore, the gradient of W is either all positive or all negative. This leaves us with only two directions of optimizations, which may not be optimal.<br>
@@ -49,13 +44,14 @@ The learning part is introduced with the loss function. While training a model, 
       **X_new = (X - Mean(X)) / StdDev(X)**
   
   
-  3. Initialization of Weights for robustness of network
+  3. **Initialization of Weights for robustness of network** : <br>
+      Assume a scenario where you try to train a deep neural network, with all of the weights in every layer initialized with zeros. During back-propagation, successive matrix multiplications with the weight matrix is carried out until the first layer is reached. This makes it very important for the weights to be initialized correctly. It helps in mitigating the **Vanishing Gradient** problem.
   
   
-  4. Batch Normalization to prevent dead units in your network
+  4. **Batch Normalization to prevent dead units in your network**
   
   
-  5. Training Process :
+  5. **Training Process** :
       1. Always start your training process with a small subset of the data from your training set.
       2. Start with Zero Regularization and ensure that the value for the loss(or cost) is plausible.
       3. Update the learning rate to a small value(say 1e-6) and check how this affects the network loss.
@@ -107,10 +103,8 @@ The learning part is introduced with the loss function. While training a model, 
 During training, if you motice that the gap between the train and validation error is high, it means that the model is being overfit to the training data.<br>
 When this happens, you would want to increase the model loss so that it prevents the model from fitting the train data too well. 
 There are many ways to prevent overfitting :
-  1. Model Ensembles : 
-  
-  2. 
-  
+  1. **Model Ensembles** : Train multiple networks. FInal results on the test set are averaged to get the best result. <br>  
+  2.   
   3. **Regularization** :<br>
   As we have already seen, we use some amount of regularization(add a regularization loss to the data loss). While learning, this would tell the model not to fit the train data too well. If you use L2 regularization, it would mean that you want to spread your parameters across the whole range rather than having them concentrated in certain regions. If L2 Reg is used, you would want to concentrate on certain features only.<br>
   4. **Dropout Layer** :<br>
