@@ -113,10 +113,16 @@ Properties of exponential family : <br>
 * Variance
 
 * Cross Validation techniques :
-  * (Simple) Hold-out Cross Validation : Divide data into train, validation and test sets. Always validate the model using Vlaidation set. Thereafter, when themodel is ready for a test, run predictions on the test set
+  * (Simple) Hold-out Cross Validation : Divide data into train, validation and test sets. Always validate the model using Vlaidation set. Thereafter, when the model is ready for a test, run predictions on the test set
   * K-fold Cross Validation : Divide the training data into 'k' pieces. Train on 'k - 1' pieces of data and validate on the last piece. Repeat this process using all pieces as the valiudation set and then average the results obtained
   * Leave-one-out Cross Validation : Leave out one sample as the validation 'set'. Train on all other samples, validate on one sample
 * Feature Selection
+
+## **Lecture 9 : Bias, Variance Continued**
+* Some assumptions : All data used in the train and test sets are sampled from the same data generating distribution. All of these data points are independant of each other
+* Data View of Bias and Variance
+* Parameter View :
+
   
   
   
