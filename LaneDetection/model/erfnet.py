@@ -89,7 +89,7 @@ class Decoder(nn.Module):
         self.layer_list.append(Non_BottleNeck(16, 1, 0.3))
 
         self.deconv_ = nn.ConvTranspose2d(in_channels=16, out_channels=num_classes,
-                                          kernel_size=3, padding=1, stride=2, output_padding=2)
+                                          kernel_size=3, padding=1, stride=2, output_padding=1)
 
     def forward(self, X):
         out = X
