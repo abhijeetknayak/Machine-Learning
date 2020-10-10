@@ -121,7 +121,8 @@ Properties of exponential family : <br>
 ## **Lecture 9 : Bias, Variance Continued**
 * Some assumptions : All data used in the train and test sets are sampled from the same data generating distribution. All of these data points are independant of each other
 * Data View of Bias and Variance
-* Parameter View :
+* Parameter View : <br>
+<img src="https://github.com/abhijeetknayak/Machine-Learning/blob/master/CS229/Material/Bias-Variance.png" />
 
   
   
