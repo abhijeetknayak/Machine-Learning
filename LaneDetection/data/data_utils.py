@@ -22,10 +22,15 @@ class TuSimpleData(Dataset):
     def __getitem__(self, idx):
         image = cv2.imread(self.data_path + self.image_list[idx])
         mask = np.zeros(image.shape)
-        for lane in self.gt[idx]:
-            cv2.polylines(mask, np.int32([lane]), isClosed=False, color=(255, 255, 255), thickness=5)
+        colors = [[255, 0, 0], [0, 255, 0], [0, 0, 255], [0, 255, 255], [255, 255, 0]]
+        for i, lane in enumerate(self.gt[idx]):
+            cv2.polylines(mask, np.int32([lane]), isClosed=False, color=colors[i], thickness=5)
+        label = np.zeros((mask.shape[0], mask.shape[1]), dtype=np.uint8)  # Grayscale
+        for i in range(len(colors)):
+            label[np.where((mask == colors[i]).all(axis=2))] = i + 1
+        image = np.transpose(image, axes=(2, 0, 1))
 
-        return image, mask
+        return image, label
 
     def load_json_data(self):
         for file in os.listdir(self.data_path):
@@ -54,6 +59,7 @@ if __name__ == '__main__':
     data = TuSimpleData(path=r"D:/TuSimple/train_set/")
 
     img, label = data.__getitem__(10)
-    cv2.imshow("Image", img)
-    cv2.imshow("Mask", label)
-    cv2.waitKey(0)
+    # cv2.imshow("Image", img)
+    # cv2.imshow("Mask", label)
+    # cv2.waitKey(0)
+    print(img.shape)
