@@ -11,11 +11,11 @@ class Non_BottleNeck(nn.Module):
         self.relu2 = nn.ReLU()
 
         # Apply Dilation only on the second set of these filter convolutions
-        self.conv31_2 = nn.Conv2d(channels, channels, kernel_size=(3, 1), stride=1, padding=(1, 0),
-                                  dilation=)
+        self.conv31_2 = nn.Conv2d(channels, channels, kernel_size=(3, 1), stride=1, padding=(dilation, 0),
+                                  dilation=(dilation, 1))
         self.relu3 = nn.ReLU()
-        self.conv13_2 = nn.Conv2d(channels, channels, kernel_size=(1, 3), stride=1, padding=(0, 1),
-                                  dilation=)
+        self.conv13_2 = nn.Conv2d(channels, channels, kernel_size=(1, 3), stride=1, padding=(0, dilation),
+                                  dilation=(1, dilation))
         self.relu4 = nn.ReLU()
 
         self.relu5 = nn.ReLU()
@@ -63,25 +63,33 @@ class Downsampler(nn.Module):
         return out
 
 class Upsampler(nn.Module):
-    def __init__(self):
+    def __init__(self, in_c, out_c):
         super(Upsampler, self).__init__()
+        self.deconv = nn.ConvTranspose2d(in_channels=in_c, out_channels=out_c, padding=1, stride=2,
+                                         output_padding=1, kernel_size=3)
+        self.bn = nn.BatchNorm2d(out_c)
+        self.relu = nn.ReLU()
 
-    def forward(self):
-        pass
+    def forward(self, X):
+        out = self.deconv(X)
+        out = self.bn(out)
+
+        return self.relu(out)
 
 class Decoder(nn.Module):
-    def __init__(self):
+    def __init__(self, num_classes):
         super(Decoder, self).__init__()
         self.layer_list = nn.ModuleList()
-        self.layer_list.append(Upsampler())
-        self.layer_list.append(Non_BottleNeck())
-        self.layer_list.append(Non_BottleNeck())
+        self.layer_list.append(Upsampler(128, 64))
+        self.layer_list.append(Non_BottleNeck(64, 1, 0.3))
+        self.layer_list.append(Non_BottleNeck(64, 1, 0.3))
 
-        self.layer_list.append(Upsampler())
-        self.layer_list.append(Non_BottleNeck())
-        self.layer_list.append(Non_BottleNeck())
+        self.layer_list.append(Upsampler(64, 16))
+        self.layer_list.append(Non_BottleNeck(16, 1, 0.3))
+        self.layer_list.append(Non_BottleNeck(16, 1, 0.3))
 
-        self.deconv_ = nn.ConvTranspose2d()
+        self.deconv_ = nn.ConvTranspose2d(in_channels=16, out_channels=num_classes,
+                                          kernel_size=3, padding=1, stride=2, output_padding=2)
 
     def forward(self, X):
         out = X
@@ -99,14 +107,14 @@ class Encoder(nn.Module):
         self.ds2 = Downsampler(in_c=16, out_c=64)
         self.layer_list = nn.ModuleList()
         for i in range(5):
-            self.layer_list.append(Non_BottleNeck(64, 1, 0.1))
+            self.layer_list.append(Non_BottleNeck(64, 1, 0.3))
         self.layer_list.append(Downsampler(in_c=64, out_c=128))
 
         for i in range(2):  # Add these layers twice
-            self.layer_list.append(Non_BottleNeck(128, 2, 0.1))
-            self.layer_list.append(Non_BottleNeck(128, 4, 0.1))
-            self.layer_list.append(Non_BottleNeck(128, 8, 0.1))
-            self.layer_list.append(Non_BottleNeck(128, 16, 0.1))
+            self.layer_list.append(Non_BottleNeck(128, 2, 0.3))
+            self.layer_list.append(Non_BottleNeck(128, 4, 0.3))
+            self.layer_list.append(Non_BottleNeck(128, 8, 0.3))
+            self.layer_list.append(Non_BottleNeck(128, 16, 0.3))
 
     def forward(self, X):
         out = self.ds1(X)
@@ -118,10 +126,10 @@ class Encoder(nn.Module):
         return out
 
 class Erfnet(nn.Module):
-    def __init__(self):
+    def __init__(self, num_classes):
         super().__init__()
         self.encoder = Encoder()
-        self.decoder = Decoder()
+        self.decoder = Decoder(num_classes=num_classes)
 
     def forward(self, X):
         out = self.encoder(X)
