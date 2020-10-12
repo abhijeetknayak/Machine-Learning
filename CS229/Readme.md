@@ -123,6 +123,7 @@ Properties of exponential family : <br>
 * Data View of Bias and Variance
 * Parameter View : <br>
 <img src="https://github.com/abhijeetknayak/Machine-Learning/blob/master/CS229/Material/Bias-Variance.png" />
+* **Reducing Variance : Regularization** helps in reducing the variance, but adds a small bias to the learning model.
 
   
   
