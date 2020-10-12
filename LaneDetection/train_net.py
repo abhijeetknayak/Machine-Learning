@@ -7,6 +7,7 @@ from LaneDetection.config import config
 from LaneDetection.data.data_utils import TuSimpleData
 from LaneDetection.model.erfnet import Erfnet
 import cv2
+import os
 
 def initialize_weights(model, type=''):
     pass
@@ -21,6 +22,11 @@ def define_optimizer(params, weight_decay, type='sgd', lr=1e-3):
 
     return optimizer
 
+def save_checkpoint(state, iteration, filename='checkpoint.pth'):
+    if not os.path.exists('trained'):
+        os.makedirs('trained')
+    filename = 'trained/' + str(iteration) + filename
+    torch.save(state, filename)
 
 if __name__ == '__main__':
     use_cuda = torch.cuda.is_available()
@@ -32,7 +38,9 @@ if __name__ == '__main__':
               'num_workers': 6}
 
     max_epochs = 100
-    print_every = 100
+    print_every = 10
+    save_every = 100
+
     dtype = torch.float32
     training_set = TuSimpleData(path=r"D:/TuSimple/train_set/")
     training_generator = torch.utils.data.DataLoader(training_set, **params)
@@ -41,17 +49,19 @@ if __name__ == '__main__':
     # initialize_weights(model, 'kaiming')
 
     optimizer = define_optimizer(model.parameters(), type='adam', lr=1e-3, weight_decay=0.001)
+    criterion = torch.nn.NLLLoss2d()
 
     model.to(device)
 
     for epoch in range(max_epochs):  # Number of epochs
         for t, (images, labels) in enumerate(training_generator):
-            images, labels = images.to(device, dtype=dtype), labels.to(device)
+            images, labels = images.to(device, dtype=dtype), labels.to(device, dtype=dtype)
             model.train()  # Train mode
 
             scores = model(images)
-            print(scores.shape)
-            loss = F.cross_entropy(scores, labels)
+            N, C, H, W = scores.shape
+            scores = scores.reshape(N, H, W)
+            loss = F.binary_cross_entropy_with_logits(scores, labels)
             optimizer.zero_grad()
             loss.backward()
 
@@ -59,5 +69,10 @@ if __name__ == '__main__':
 
             if t % print_every == 0:
                 print("Iteration {}; Loss : {}".format(t, loss))
+
+            if t % save_every == 0:
+                save_checkpoint({'epoch': epoch + 1,
+                                 'state_dict': model.state_dict(),
+                                 }, t)
 
 
