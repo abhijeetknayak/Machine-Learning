@@ -42,7 +42,7 @@ if __name__ == '__main__':
     save_every = 100
 
     dtype = torch.float32
-    training_set = TuSimpleData(path=r"D:/TuSimple/train_set/")
+    training_set = TuSimpleData(path=r"D:/TuSimple/train_set/", num_classes=5)
     training_generator = torch.utils.data.DataLoader(training_set, **params)
 
     model = Erfnet(5)
@@ -59,8 +59,6 @@ if __name__ == '__main__':
             model.train()  # Train mode
 
             scores = model(images)
-            N, C, H, W = scores.shape
-            scores = scores.reshape(N, H, W)
             loss = F.binary_cross_entropy_with_logits(scores, labels)
             optimizer.zero_grad()
             loss.backward()
