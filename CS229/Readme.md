@@ -122,8 +122,11 @@ Properties of exponential family : <br>
 * Some assumptions : All data used in the train and test sets are sampled from the same data generating distribution. All of these data points are independant of each other
 * Data View of Bias and Variance
 * Parameter View : <br>
-<img src="https://github.com/abhijeetknayak/Machine-Learning/blob/master/CS229/Material/Bias-Variance.png" />
-* **Reducing Variance : Regularization** helps in reducing the variance, but adds a small bias to the learning model.
+<img src="https://github.com/abhijeetknayak/Machine-Learning/blob/master/CS229/Material/Bias-Variance.png" /> <br>
+* **Reducing Variance : Regularization** helps in reducing the variance, but adds a small bias to the learning model <br>
+* **Reducing Bias :** Increase hypothesis space. This reduces the bias because the learning algorithm is not biased to a certain set of algorithms. This might increase the variance though<br>
+* Bias-Variance Tradeoff :<br>
+<img src="https://github.com/abhijeetknayak/Machine-Learning/blob/master/CS229/Material/Bias-Variance-Tradeoff.JPG" />
 
   
   
