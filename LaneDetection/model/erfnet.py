@@ -90,8 +90,8 @@ class Decoder(nn.Module):
 
         self.deconv_ = nn.ConvTranspose2d(in_channels=16, out_channels=num_classes,
                                           kernel_size=3, padding=1, stride=2, output_padding=1)
-        self.final_conv = nn.Conv2d(in_channels=num_classes, out_channels=1, kernel_size=3, padding=1,
-                                    stride=1)
+        # self.final_conv = nn.Conv2d(in_channels=num_classes, out_channels=1, kernel_size=3, padding=1,
+        #                             stride=1)
 
     def forward(self, X):
         out = X
@@ -99,7 +99,7 @@ class Decoder(nn.Module):
             out = layer(out)
 
         out = self.deconv_(out)
-        out = self.final_conv(out)
+        # out = self.final_conv(out)
 
         return out
 
