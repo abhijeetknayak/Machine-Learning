@@ -9,7 +9,8 @@ from torch.utils.data import Dataset
 import glob
 
 class TuSimpleData(Dataset):
-    def __init__(self, path=None, data_list='train'):
+    def __init__(self, num_classes, path=None, data_list='train'):
+        self.num_classes = num_classes
         self.image_list = []
         self.gt = []
         self.data_path = path
@@ -25,9 +26,11 @@ class TuSimpleData(Dataset):
         colors = [[255, 0, 0], [0, 255, 0], [0, 0, 255], [0, 255, 255], [255, 255, 0]]
         for i, lane in enumerate(self.gt[idx]):
             cv2.polylines(mask, np.int32([lane]), isClosed=False, color=colors[i], thickness=5)
-        label = np.zeros((mask.shape[0], mask.shape[1]), dtype=np.uint8)  # Grayscale
+        label = np.zeros((self.num_classes, mask.shape[0], mask.shape[1]), dtype=np.uint8)  # Grayscale
         for i in range(len(colors)):
-            label[np.where((mask == colors[i]).all(axis=2))] = i + 1
+            temp = np.zeros((mask.shape[0], mask.shape[1]), dtype=np.uint8)
+            temp[np.where((mask == colors[i]).all(axis=2))] = 255
+            label[i, :, :] = temp
         image = np.transpose(image, axes=(2, 0, 1))
 
         return image, label
@@ -56,10 +59,13 @@ def lane_visualization(img, h_samples, lanes):
     cv2.waitKey(0)
 
 if __name__ == '__main__':
-    data = TuSimpleData(path=r"D:/TuSimple/train_set/")
+    data = TuSimpleData(path=r"D:/TuSimple/train_set/", num_classes=5)
 
     img, label = data.__getitem__(10)
     # cv2.imshow("Image", img)
     # cv2.imshow("Mask", label)
     # cv2.waitKey(0)
-    print(img.shape)
+    label = np.transpose(label, axes=(1, 2, 0))
+    print(label.shape)
+    cv2.imshow("im", label[:, :, 4])
+    cv2.waitKey(0)
