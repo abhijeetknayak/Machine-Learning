@@ -22,6 +22,15 @@ def define_optimizer(params, weight_decay, type='sgd', lr=1e-3):
 
     return optimizer
 
+def soft_dice_loss(scores, labels):
+    union = torch.sum(torch.mul(scores, labels))
+    scores_sum_sqr = torch.sum(torch.square(scores))
+    labels_sum_sqr = torch.sum(torch.square(labels))
+
+    loss = 1 - torch.div(union, torch.add(scores_sum_sqr, labels_sum_sqr))
+
+    return loss
+
 def save_checkpoint(state, iteration, filename='checkpoint.pth'):
     if not os.path.exists('trained'):
         os.makedirs('trained')
@@ -45,7 +54,9 @@ if __name__ == '__main__':
     training_set = TuSimpleData(path=r"D:/TuSimple/train_set/", num_classes=5)
     training_generator = torch.utils.data.DataLoader(training_set, **params)
 
-    model = Erfnet(5)
+    model = torch.load('trained/800checkpoint.pth')
+
+    # model = Erfnet(5)
     # initialize_weights(model, 'kaiming')
 
     optimizer = define_optimizer(model.parameters(), type='adam', lr=1e-3, weight_decay=0.001)
@@ -59,7 +70,8 @@ if __name__ == '__main__':
             model.train()  # Train mode
 
             scores = model(images)
-            loss = F.binary_cross_entropy_with_logits(scores, labels)
+            # loss = F.binary_cross_entropy_with_logits(scores, labels)
+            loss = soft_dice_loss(scores, labels)
             optimizer.zero_grad()
             loss.backward()
 
