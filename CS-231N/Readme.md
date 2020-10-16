@@ -3,7 +3,7 @@
 An overview of Computer Vision and problems everyone is trying to solve.
 
 ## **Lecture 2 : K-Nearest Neighbor Classifier** <br>
-hello
+EDIT!
 
 ## **Lecture 3 : Loss Functions and Optimization**
 A Loss function, in essence, is a measure of **how bad the learned weights of a model are.**<br>
