@@ -1,4 +1,4 @@
-**[CS229](http://cs229.stanford.edu/) : Machine Learning** <br>
+# **[CS229](http://cs229.stanford.edu/) : Machine Learning** <br>
 ## **Lecture 1 : Introduction to ML** <br>
 * Supervised Learning : Learn mapping from n-Dimensional input to a single output. For Classification problems, the output is a label(discrete). For regression problems, the output is continuous. <br>
 * Unsupervised Learning : Just input data provided, no labels. Learn from data and derive hidden information from clusters of data. <br>
@@ -126,7 +126,9 @@ Properties of exponential family : <br>
 * **Reducing Variance : Regularization** helps in reducing the variance, but adds a small bias to the learning model <br>
 * **Reducing Bias :** Increase hypothesis space. This reduces the bias because the learning algorithm is not biased to a certain set of algorithms. This might increase the variance though<br>
 * Bias-Variance Tradeoff :<br>
-<img src="https://github.com/abhijeetknayak/Machine-Learning/blob/master/CS229/Material/Bias-Variance-Tradeoff.JPG" />
+<img src="https://github.com/abhijeetknayak/Machine-Learning/blob/master/CS229/Material/Bias-Variance-Tradeoff.JPG" /> <br>
+* [**Uniform Convergence**]() : With a probability of <img src="https://i.upmath.me/svg/1%20-%20%5Cdelta%20" alt="1 - \delta " /> and training set 'm', the generaization error at the learnt hypothesis will always be within <img src="https://i.upmath.me/svg/2%5Cgamma%20" alt="2\gamma " /> from the generalization error of the best in class hypothesis.
+Here, <img src="https://i.upmath.me/svg/%5Cdelta" alt="\delta" /> is the probability of error, and <img src="https://i.upmath.me/svg/%5Cgamma" alt="\gamma" /> is the error margin <br>
 
   
   
