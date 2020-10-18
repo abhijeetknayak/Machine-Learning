@@ -130,6 +130,24 @@ Properties of exponential family : <br>
 * [**Uniform Convergence**]() : With a probability of <img src="https://i.upmath.me/svg/1%20-%20%5Cdelta%20" alt="1 - \delta " /> and training set 'm', the generaization error at the learnt hypothesis will always be within <img src="https://i.upmath.me/svg/2%5Cgamma%20" alt="2\gamma " /> from the generalization error of the best in class hypothesis.
 Here, <img src="https://i.upmath.me/svg/%5Cdelta" alt="\delta" /> is the probability of error, and <img src="https://i.upmath.me/svg/%5Cgamma" alt="\gamma" /> is the error margin <br>
 
+## **Lecture 10 : Decision Trees, Ensembling methods**
+* **Decision Trees** : For data which cannot be separated using linear regression or even SVMs <br>
+  * Recursively divide a parent group into child groups, such that certain conditions are met. Recursively look for a split in the parent group. Cross entropy loss works out better compared to misclassification loss
+  * Regularization in DT : As decision trees are high variance models, regularization should be used!<br>
+    * Minimum leaf size : Stop splitting a group if a certain leaf size is reached 
+    * Maximum Depth : Stop splitting if maximum depth is reached
+    * Maximum number of nodes
+    * Minimum decrease in loss : Might not be a good idea. A sub-optimal split might lead to a condition where we get an optimal split
+    * Pruning the tree
+  * Decision trees do not have additive structure. This means that, even for simple tasks, a large number of splits are generated to correctly classify examples. They also have a low predictive accuracy(though this can be resolved using Emsembling)
+* **Ensembling** : Increasing the number of models so that variance can be reduced
+  * Ways to Ensemble:
+    * Use different algorithms
+    * Use different training sets
+    * Bagging : Bootstrapped Aggregation. Randomized sub-sampling from the training set. Use these subsets to train different models on the data. This helps in decreasing the variance, but adds a slight bias to the model
+    * Boosting : Decreasing bias of the model. Each ensemble model is trained on a re-weighted training set. The final model is a weighted sum of all the models
+  
+
   
   
   
