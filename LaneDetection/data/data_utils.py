@@ -20,7 +20,7 @@ class TuSimpleData(Dataset):
     def __len__(self):
         return len(self.image_list)
 
-    def __getitem__(self, idx):
+    def __getitem1__(self, idx):
         image = cv2.imread(self.data_path + self.image_list[idx])
         mask = np.zeros(image.shape)
         colors = [[255, 0, 0], [0, 255, 0], [0, 0, 255], [0, 255, 255], [255, 255, 0]]
@@ -33,6 +33,17 @@ class TuSimpleData(Dataset):
             label[i, :, :] = temp
         image = np.transpose(image, axes=(2, 0, 1))
 
+        return image, label
+
+    def __getitem__(self, idx):
+        image = cv2.imread(self.data_path + self.image_list[idx])
+        mask = np.zeros(image.shape)
+        for i, lane in enumerate(self.gt[idx]):
+            cv2.polylines(mask, np.int32([lane]), isClosed=False, color=[255, 0, 0], thickness=10)
+        label = np.zeros((mask.shape[0], mask.shape[1]))
+        label[np.where((mask == [255, 0, 0]).all(axis=2))] = 1
+
+        image = np.transpose(image, (2, 0, 1))
         return image, label
 
     def load_json_data(self):
@@ -59,13 +70,14 @@ def lane_visualization(img, h_samples, lanes):
     cv2.waitKey(0)
 
 if __name__ == '__main__':
-    data = TuSimpleData(path=r"D:/TuSimple/train_set/", num_classes=5)
+    # data = TuSimpleData(path=r"D:/TuSimple/train_set/", num_classes=5)
+    data = TuSimpleData(path=r"C:/Users/NAYAKAB/Desktop/dataset/", num_classes=2)
 
-    img, label = data.__getitem__(10)
+    img, label = data.__getitem__(0)
     # cv2.imshow("Image", img)
     # cv2.imshow("Mask", label)
     # cv2.waitKey(0)
-    label = np.transpose(label, axes=(1, 2, 0))
+    # label = np.transpose(label, axes=(1, 2, 0))
     print(label.shape)
-    cv2.imshow("im", label[:, :, 4])
+    cv2.imshow("im", label)
     cv2.waitKey(0)
