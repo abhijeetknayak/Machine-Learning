@@ -146,8 +146,20 @@ Here, <img src="https://i.upmath.me/svg/%5Cdelta" alt="\delta" /> is the probabi
     * Use different training sets
     * Bagging : Bootstrapped Aggregation. Randomized sub-sampling from the training set. Use these subsets to train different models on the data. This helps in decreasing the variance, but adds a slight bias to the model
     * Boosting : Decreasing bias of the model. Each ensemble model is trained on a re-weighted training set. The final model is a weighted sum of all the models
-  
 
+## **Lecture 11 & 12 : Neural networks, Loss functions, Back propagation**
+
+## **Lecture 13 : Error Strategies + Debugging ML models**
+* Things to try: Bias-Variance Tradeoff is something you want to look at
+  * Increase size of training set - For **high variance** problems
+  * Try with a smaller set of features - For **high variance** problems(Think of polynomial regression with multiple features)
+  * Try with a larger set of features - For **high bias** problems(Think of polynomial regression with lower order features)
+  * Increase number of iterations - Fixes **optimization algorithm**
+  * Try Newton's method for faster convergence - Fixes **optimization algorithm**
+  * Use a different learning rate - Fixes **optimization objective**
+  * Try other models(SVM, etc) - Fixes **optimization objective**
+* Error Analysis
+* Ablative Analysis : Remove components one at a time to see how the system breaks. This way you understand the most important features the system depends on
   
   
   
