@@ -169,6 +169,7 @@ Here, <img src="https://i.upmath.me/svg/%5Cdelta" alt="\delta" /> is the probabi
   * Update clusters based on the changed cluster centers(Repeat)
 * **Density Estimation**
   * Model p(x) to be the density of the distribution
+  <img src="https://github.com/abhijeetknayak/Machine-Learning/blob/master/CS229/Material/Density-Estimation-EM.JPG" /> <br>
   
   
   
