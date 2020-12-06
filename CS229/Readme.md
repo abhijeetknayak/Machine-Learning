@@ -160,6 +160,15 @@ Here, <img src="https://i.upmath.me/svg/%5Cdelta" alt="\delta" /> is the probabi
   * Try other models(SVM, etc) - Fixes **optimization objective**
 * Error Analysis
 * Ablative Analysis : Remove components one at a time to see how the system breaks. This way you understand the most important features the system depends on
+
+## **Lecture 14 : Unsupervised Learning**
+* **Clustering by k-means**
+  * Start with random points for the cluster centers. Find the distance of all points to the centers and allocate them to the respective clusters
+  * Instead of random points, you could also pick up 'k' different points from the dataset for 'k' clusters 
+  * Find and update the cluster center using the mean of all clustered points
+  * Update clusters based on the changed cluster centers(Repeat)
+* **Density Estimation**
+  * Model p(x) to be the density of the distribution
   
   
   
