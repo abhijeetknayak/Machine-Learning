@@ -9,4 +9,10 @@
     * The model fit will be determined by the depth of the tree that you choose. If a large depth is used, the model is overfit, whereas if a small depth is used, the model is underfit to the data. Modify **max_leaf_nodes** to change model fitting
   * __RandomForestRegressor__ (sklearn.ensemble) : Random Forest models. Multiple decision trees to prevent under-fitting and over-fitting
   * __Linear Regressor__ (sklearn.linear_model LinearRegression)
+  * __Imputation__ (sklearn.impute SimpleImputer): To handle missing values
+    * Use a strategy to fill in the missing values. This may be 'mean', 'median', 'most_frequent', etc.
+    * Imputation is only for non-categorical variables?
+  * __Handling Categorical variables__:
+    * Label Encoding (sklearn.preprocessing LabelEncoder): Categories are given values
+    * One Hot Encoding (sklearn.preprocessing OneHotEncoder): 
   
