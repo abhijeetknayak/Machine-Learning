@@ -15,4 +15,11 @@
   * __Handling Categorical variables__:
     * Label Encoding (sklearn.preprocessing LabelEncoder): Categories are given values
     * One Hot Encoding (sklearn.preprocessing OneHotEncoder): 
+  * __Creating Pipelines__ : Helps in organizing your code(Super Useful!!)
+    * ColumnTransformer (sklearn.compose): Define Transformers in order 
+    * Pipeline (sklearn.pipeline): Define steps in order
+#### XGBoost: Extreme Gradient Boosting
+* Ensemble method to get the best possible model
+  * Start with a naive model and train it to get a loss function
+  * Applies gradient descent on the loss function to create a new model, and adds this model to the ensemble. Repeat this process for a number of iterations
   
