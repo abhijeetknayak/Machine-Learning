@@ -22,4 +22,9 @@
 * Ensemble method to get the best possible model
   * Start with a naive model and train it to get a loss function
   * Applies gradient descent on the loss function to create a new model, and adds this model to the ensemble. Repeat this process for a number of iterations
+#### **Data Leakage**:
+* Happens if some information about the target is available during training. Model Validation gives a high score, but predictions are terrible!
+  * Target Leakage : Training data contains variables which will not be updated or available at the time of predictions
+  * Train-test contamination: If the test data is used while training the model. Make sure you use pipelines to ensure this contamination does not happen
+  
   
