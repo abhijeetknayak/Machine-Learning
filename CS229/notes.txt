@@ -1,0 +1,5 @@
+Support Vector Machines allow inputs with infinite dimensions.
+
+Multivariate Gaussians
+
+
