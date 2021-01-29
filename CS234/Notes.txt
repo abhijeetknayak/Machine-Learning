@@ -1,0 +1,3 @@
+Machine Teaching?
+Deterministic and Stochastic
+Finite Horizon, Infinite Horizon cases, Indefinite Horizon
